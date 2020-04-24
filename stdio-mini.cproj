@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.ARMGCC.C</ToolchainName>
+    <ProjectGuid>dce6c7e3-ee26-4d79-826b-08594b9ad897</ProjectGuid>
+    <avrdevice>ATSAMC21G17A</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>StaticLibrary</OutputType>
+    <Language>C</Language>
+    <OutputFileName>lib$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <AvrGccProjectExtensions>
+    </AvrGccProjectExtensions>
+    <AssemblyName>stdio-mini</AssemblyName>
+    <Name>stdio-mini</Name>
+    <RootNamespace>stdio-mini</RootNamespace>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress>0x20000000</RamSnippetAddress>
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue>exception_table</OverrideVtorValue>
+    <BootSegment>2</BootSegment>
+    <ResetRule>0</ResetRule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <EraseKey />
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.47.0" />
+        </dependencies>
+      </framework-data>
+    </AsfFrameworkConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
+  <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
+  <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.optimization.EnableUnsafeMatchOptimizations>True</armgcc.linker.optimization.EnableUnsafeMatchOptimizations>
+  <armgcc.linker.optimization.EnableFastMath>True</armgcc.linker.optimization.EnableFastMath>
+  <armgcc.linker.memorysettings.ExternalRAM>False</armgcc.linker.memorysettings.ExternalRAM>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+</ArmGcc>
+    </ToolchainSettings>
+    <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S -C $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
+</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>True</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>True</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>True</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
+  <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
+  <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
+  <armgcc.compiler.optimization.DebugLevel>Maximum (-g3)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.optimization.EnableUnsafeMatchOptimizations>True</armgcc.linker.optimization.EnableUnsafeMatchOptimizations>
+  <armgcc.linker.optimization.EnableFastMath>True</armgcc.linker.optimization.EnableFastMath>
+  <armgcc.linker.memorysettings.ExternalRAM />
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.assembler.debugging.DebugLevel>Default (-g)</armgcc.assembler.debugging.DebugLevel>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.debugging.DebugLevel>Default (-Wa,-g)</armgcc.preprocessingassembler.debugging.DebugLevel>
+</ArmGcc>
+    </ToolchainSettings>
+    <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S -C $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
+</PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="libc\include\stdio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\clearerr.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\feof.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\ferror.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fgetc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fgets.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fprintf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fputc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fputs.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fread.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fscanf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\fwrite.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\getchar.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\gets.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\iob.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\printf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\putchar.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\puts.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\scanf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\snprintf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\sprintf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\sscanf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\stdio_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\ungetc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\vfprintf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\vfscanf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\vprintf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\vscanf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\vsnprintf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\vsprintf.c">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="libc\" />
+    <Folder Include="libc\include\" />
+    <Folder Include="libc\stdio\" />
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>
