@@ -38,7 +38,6 @@
 #include <string.h>
 #include "stdio_private.h"
 #include "ftoa_engine.h"
-#include "xtoa_fast.h"
 
 /*
  * This file can be compiled into more than one flavor.  The default
@@ -232,7 +231,7 @@ int vfprintf (FILE * stream, const char *fmt, va_list ap)
 				flags |= FL_FLTEXP;
 			else if (c == 'f')
 				flags |= FL_FLTFIX;
-			else if (prec > 0)
+			else if (prec > 0)	// c == 'g'
 				prec -= 1;
 
 			if (flags & FL_FLTFIX) {

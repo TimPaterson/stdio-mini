@@ -250,7 +250,6 @@ struct __file {
 #define __SERR	0x0010		/* found error */
 #define __SEOF	0x0020		/* found EOF */
 #define __SUNGET 0x040		/* ungetc() happened */
-#define __SMALLOC 0x80		/* handle is malloc()ed */
 };
 
 #endif /* not __DOXYGEN__ */

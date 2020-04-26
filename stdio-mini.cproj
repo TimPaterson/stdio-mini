@@ -157,6 +157,9 @@
     <Compile Include="libc\stdio\clearerr.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="libc\stdio\convtoa.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="libc\stdio\feof.c">
       <SubType>compile</SubType>
     </Compile>
@@ -182,6 +185,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="libc\stdio\fscanf.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\ftoa.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="libc\stdio\fwrite.c">
