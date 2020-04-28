@@ -37,23 +37,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include "stdio_private.h"
-#include "ftoa_engine.h"
+#include "convtoa.h"
 
 /*
- * This file can be compiled into more than one flavor.  The default
- * is to offer the usual modifiers and integer formatting support
- * (level 1).  Level 2 is intended for floating point support.
+ * This file can be compiled into more than one flavor.
+ * See stdio_private.h.
  */
 
-//# define PRINTF_LEVEL PRINTF_FLT
-#ifndef PRINTF_LEVEL
-# define PRINTF_LEVEL PRINTF_STD
-#endif
-
-#if PRINTF_LEVEL == PRINTF_STD || PRINTF_LEVEL == PRINTF_FLT
+#if INT_MATH_LEVEL == INT_MATH_MIN || INT_MATH_LEVEL == INT_MATH_LONG_LONG
 /* OK */
 #else
-# error "Not a known printf level."
+# error "Not a known integer math level."
+#endif
+
+#if FP_MATH_LEVEL == FP_MATH_NONE || FP_MATH_LEVEL == FP_MATH_FLOAT || FP_MATH_LEVEL == FP_MATH_DOUBLE
+/* OK */
+#else
+# error "Not a known floating-point math level."
 #endif
 
 /* --------------------------------------------------------------------	*/
@@ -116,7 +116,7 @@ inline char * __ultoaOctHex_invert (unsigned long val, char * str, int shift, in
 #define	FL_FLTFIX	FL_LONG
 
 // Size of conversion buffer on stack
-#if  PRINTF_LEVEL < PRINTF_FLT
+#if  FP_MATH_LEVEL == FP_MATH_NONE
 #define BUF_SIZE	11	/* size for -1 in octal, without '\0'	*/
 #else
 #define BUF_SIZE	18
@@ -207,7 +207,7 @@ int vfprintf (FILE * stream, const char *fmt, va_list ap)
 # error
 #endif
 
-#if PRINTF_LEVEL >= PRINTF_FLT
+#if FP_MATH_LEVEL > FP_MATH_NONE
 		if (c >= 'E' && c <= 'G') {
 			flags |= FL_FLTUPP;
 			c += 'e' - 'E';
@@ -242,7 +242,13 @@ int vfprintf (FILE * stream, const char *fmt, va_list ap)
 				vtype = prec;
 				ndigs = 0;
 			}
-			exp = __ftoa_engine (va_arg(ap,double), (char *)buf, vtype, ndigs);
+#if FP_MATH_LEVEL == FP_MATH_FLOAT
+			 union {long l; float f;} u;
+			 u.l = va_arg(ap, long);
+			 exp = __ftoa(u.f, (char *)buf, vtype, ndigs);
+#else
+			exp = __dtoa(va_arg(ap,double), (char *)buf, vtype, ndigs);
+#endif
 			vtype = buf[0];
 
 			sign = 0;
@@ -380,7 +386,7 @@ int vfprintf (FILE * stream, const char *fmt, va_list ap)
 # undef ndigs
 		}
 
-#else		/* to: PRINTF_LEVEL >= PRINTF_FLT */
+#else		/* to: FP_MATH_LEVEL > FP_MATH_NONE */
 		if ((c >= 'E' && c <= 'G') || (c >= 'e' && c <= 'g')) {
 			(void) va_arg (ap, double);
 			buf[0] = '?';
@@ -397,7 +403,7 @@ int vfprintf (FILE * stream, const char *fmt, va_list ap)
 
 			  case 'c':
 				buf[0] = va_arg (ap, int);
-#if  PRINTF_LEVEL < PRINTF_FLT
+#if  FP_MATH_LEVEL == FP_MATH_NONE
 			  buf_addr:
 #endif
 				pnt = (char *)buf;

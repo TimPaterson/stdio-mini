@@ -95,7 +95,7 @@ static void putval (void *addr, long val, unsigned char flags)
 {
 	if (!(flags & FL_STAR)) {
 		if (flags & FL_CHAR)
-			*(char *)addr = val;
+			*(char *)addr = (char)val;
 		else if (flags & FL_LONG)
 			*(long *)addr = val;
 		else
@@ -186,7 +186,7 @@ conv_int (FILE *stream, width_t width, void *addr, unsigned char flags)
 		goto err;
 
   putval:
-	if (flags & FL_MINUS) val = -val;
+	if (flags & FL_MINUS) val = -(long)val;
 	putval (addr, val, flags);
 	return 1;
 
@@ -588,7 +588,7 @@ int vfscanf (FILE * stream, const char *fmt, va_list ap)
 	unsigned char nconvs;
 	unsigned char c;
 	width_t width;
-	void *addr;
+	char *addr;
 	unsigned char flags;
 	int i;
 
@@ -661,7 +661,7 @@ int vfscanf (FILE * stream, const char *fmt, va_list ap)
 			if (!c || !strchr (CNV_LIST, c))
 				break;
 
-			addr = (flags & FL_STAR) ? 0 : va_arg (ap, void *);
+			addr = (flags & FL_STAR) ? 0 : va_arg (ap, char *);
 
 			if (c == 'n') {
 				putval (addr, (unsigned)(stream->len), flags);
@@ -673,7 +673,7 @@ int vfscanf (FILE * stream, const char *fmt, va_list ap)
 				do {
 					if ((i = getc (stream)) < 0)
 						goto eof;
-					if (addr) *(char *)addr++ = i;
+					if (addr) *addr++ = i;
 				} while (--width);
 				c = 1;			/* no matter with smart GCC	*/
 
@@ -699,9 +699,9 @@ int vfscanf (FILE * stream, const char *fmt, va_list ap)
 							ungetc (i, stream);
 							break;
 						}
-						if (addr) *(char *)addr++ = i;
+						if (addr) *addr++ = i;
 					} while (--width);
-					if (addr) *(char *)addr = 0;
+					if (addr) *addr = 0;
 					c = 1;		/* no matter with smart GCC	*/
 					break;
 

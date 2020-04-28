@@ -8,9 +8,9 @@
 #include "stdio_private.h"
 #include "convtoa.h"
 #include <math.h>
-#include <sys/types.h>
-#include <stdbool.h>
 
+
+typedef unsigned long ulong;
 
 //*************************************************************************
 
@@ -18,6 +18,8 @@
 #define FLOAT_EXP_BITS		8
 #define FLOAT_MANTISSA_BITS 23
 #define FLOAT_EXP_BIAS		127
+#define FLOAT_MAX_EXP		((1 << FLOAT_EXP_BITS) - 1)
+#define FLOAT_SIGN_BIT		(1 << 31)
 
 typedef union
 {
@@ -34,26 +36,48 @@ typedef union
 #define Log10_2			0.30102999566398119521
 #define Log10_2_shift	18
 #define Log10_2_mask	((1 << (Log10_2_shift + 1)) - 1)
-#define Exp2toExp10		(lround(Log10_2 * (1 << Log10_2_shift)))
+#define Exp2toExp10		(lround(Log10_2 * (double)(1 << Log10_2_shift)))
 
 //*************************************************************************
 
 float Power10table[] =
 {
-	1e+38, 1e+36, 1e+34, 1e+32, 1e+30, 1e+28, 1e+26, 1e+24,1e+22, 
-	1e+20, 1e+18, 1e+16, 1e+14, 1e+12, 1e+10, 1e+8, 1e+6, 1e+4, 1e+2,
+	1e+38f, 1e+36f, 1e+34f, 1e+32f, 1e+30f, 1e+28f, 1e+26f, 1e+24f,1e+22f, 
+	1e+20f, 1e+18f, 1e+16f, 1e+14f, 1e+12f, 1e+10f, 1e+8f, 1e+6f, 1e+4f, 1e+2f,
 	// 1e+0 skipped
-	1e-2, 1e-4, 1e-6, 1e-8, 1e-10, 1e-12, 1e-14, 1e-16, 1e-18, 1e-20,
-	1e-22, 1e-24, 1e-26, 1e-28, 1e-30, 1e-32, 1e-34, 1e-36, 1e-38 
+	1e-2f, 1e-4f, 1e-6f, 1e-8f, 1e-10f, 1e-12f, 1e-14f, 1e-16f, 1e-18f, 1e-20f,
+	1e-22f, 1e-24f, 1e-26f, 1e-28f, 1e-30f, 1e-32f, 1e-34f, 1e-36f, 1e-38f
 };
 #define MAX_POWER 38
+
+/*
+	int __ftoa(float val, char *buf, int prec, int maxdgs)
+
+ Input:
+    val    - value to convert
+    buf    - output buffer address
+    prec   - precision: number of decimal digits is 'prec + 1'
+    maxdgs - (0 if unused) precision restriction for "%f" specification
+
+ Output:
+    return     - decimal exponent of first digit
+    buf[0]     - flags (FTOA_***)
+    buf[1],... - decimal digits
+    Number of digits:
+	maxdgs == 0 ? prec+1 : aver(1, maxdgs+exp, prec+1)
+
+ Notes:
+    * Output string is not 0-terminated. For possibility of user's buffer
+    usage in any case.
+    * If used, 'maxdgs' is a number of digits for value with zero exponent.
+*/
 
  int __ftoa(float val, char *buf, int prec, int maxdgs)
  {
 	int		exp;
 	int		exp10;
 	char	digit;
-	char	fFirst;
+	char	flags;
 	ulong	mant;
 	float_struct	flt;
 
@@ -74,8 +98,25 @@ float Power10table[] =
 	// it's fast and without loss of precision.
 
 	flt.f = val;
+	if ((flt.l & ~FLOAT_SIGN_BIT) == 0)
+	{
+		*buf++ = FTOA_ZERO;
+		for (; prec > 0; prec--)
+			*buf++ = '0';
+		return 0;
+	}
+
 	exp = flt.bits.exp;
-	// UNDONE: check for zero, infinity, NAN
+	flags = flt.bits.sign ? FTOA_MINUS : 0;
+	if (exp == FLOAT_MAX_EXP)
+	{
+		// Infinity or NAN
+		flags |= flt.bits.mant == 0 ? FTOA_INF : FTOA_NAN;
+		*buf = flags;
+		return 0;
+	}
+	*buf++ = flags;
+
 	exp -= FLOAT_EXP_BIAS + 2;
 	// Adding Log10_2_mask below is what performs the ceil() function.
 	// Shift by Log10_2_shift + 1 because we only use even powers of 10.
@@ -83,32 +124,86 @@ float Power10table[] =
 	if (exp10 != 0)	// skip 10^0
 	{
 		// table has no entry for 10^0, skip over it
-		flt.f *= Power10table[exp10 + MAX_POWER + (exp10 < 0 ? 0 : -1)];
+		flt.f *= Power10table[exp10 + MAX_POWER / 2 + (exp10 < 0 ? 0 : -1)];
 	}
 	exp10 *= 2;	// back to actual power of 10
-	exp = flt.bits.exp;
 	mant = flt.bits.mant | (1 << FLOAT_MANTISSA_BITS);
-	mant <<= exp + 6;	// exp <= 2, so max of 8
+	exp = flt.bits.exp - FLOAT_EXP_BIAS;
+	// Mantissa is adjusted by exp, -5 <= exp <= 2. We add 5 so it we 
+	// only shift one way. If exp were zero, the shift would put 
+	// mantissa MSB at FLOAT_MANTISSA_BITS + 5, and the bit would
+	// represent the value 1. So our decimal digit will be formed from 
+	// that bit and the bits above it.
+#define DIGIT_SHIFT	(FLOAT_MANTISSA_BITS + 5)
+	mant <<= exp + 5;	// -5 <= exp <= 2, so max of 7
 
-	// pump out the digits
-	fFirst = 0;
-	do 
+	// Scan off leading zeros
+	for(;;) 
 	{
-		// upper four bits has digit
-		digit = mant >> 28;
-		fFirst |= digit;
-		if (fFirst != 0)
-		{
-			*buf++ = digit + '0';
-			mant &= (1 << 28) - 1;
-			if (mant == 0)
-				break;
-		}
-		else
-			exp10--;
+		digit = mant >> DIGIT_SHIFT;
+		if (digit != 0)
+			break;
 
 		mant *= 10;
-	} while (1);
+		exp10--;
+	}
+
+	// Calculate the number of digits we want
+	prec++;
+	if (maxdgs == 0)
+		maxdgs = prec;
+	else
+	{
+		maxdgs += exp10;
+		if (maxdgs < 1)
+			maxdgs = 1;
+		else if (maxdgs > prec)
+			maxdgs = prec;
+	}
+
+	// pump out the digits
+	prec = maxdgs;
+	for(;;) 
+	{
+		// upper four bits has digit
+		digit += '0';
+		*buf = digit;
+		mant &= (1 << DIGIT_SHIFT) - 1;
+		if (--maxdgs == 0)
+			break;
+		mant *= 10;
+		digit = mant >> DIGIT_SHIFT;
+		buf++;
+	}
+
+	// Round up if mantissa is > 0.5 or == 0.5 and digit is odd
+#define ROUND_VALUE	(1 << 27)
+	if (mant > ROUND_VALUE || (mant == ROUND_VALUE && (digit & 1)))
+	{
+		// End with a zero in case we round from 9.9..9 to 10.0..0
+		buf[1] = '0';
+
+		for (;;)
+		{
+			digit++;
+			if (digit > '9')
+				digit = '0';
+			*buf = digit;
+			if (--prec == 0)
+			{
+				if (digit == '0')
+				{
+					*buf = '1';
+					exp10++;
+				}
+				buf[-1] |= FTOA_CARRY;
+				break;
+			}
+			if (digit != '0')
+				break;
+			digit = *--buf;
+		}
+	}
 
 	return exp10;
  }

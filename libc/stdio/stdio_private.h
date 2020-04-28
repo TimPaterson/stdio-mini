@@ -29,14 +29,74 @@
 
 /* $Id$ */
 
+#ifndef __GNUC__
+#define __extension__
+#define __attribute__(...)
+#endif
+
 #include <stdint.h>
 #include "..\include\stdio.h"
 
-/* values for PRINTF_LEVEL */
-#define PRINTF_STD 1
-#define PRINTF_FLT 2
+// This library can be compiled with different levels of math support.
+// The minimum is level is long int. The following levels can be added:
+//
+// long long, float/double not required
+// float, long long not required (no double)
+// double, requires long long (no float)
+//
+// WARNING FOR FLOAT!!: Variadic functions like printf cannot be
+// directly passed a float; the compiler will automatically promote it
+// to double. Since the objective of using float is to avoid
+// pulling in the presumably larger runtime library for double, this
+// would defeat the purpose. Instructions for passing a float
+// are below.
+//
+// Because of the overlap with integer and floating point, two
+// compile-time variables are used, with these possible values:
 
-/* values for SCANF_LEVEL */
-#define SCANF_MIN 1
-#define SCANF_STD 2
-#define SCANF_FLT 3
+// Values for INT_MATH_LEVEL
+#define INT_MATH_MIN		0
+#define INT_MATH_LONG_LONG	1
+
+// Values for FP_MATH_LEVEL
+#define FP_MATH_NONE	0
+#define FP_MATH_FLOAT	1
+#define FP_MATH_DOUBLE	2
+
+// If not set on the compiler command line, set defaults here:
+#ifndef INT_MATH_LEVEL
+#define INT_MATH_LEVEL	INT_MATH_MIN
+#endif
+
+#ifndef FP_MATH_LEVEL
+#define FP_MATH_LEVEL	FP_MATH_FLOAT
+#endif
+
+//*************************************************************************
+// Passing a float to a variadic function
+//*************************************************************************
+//
+// Type float is passed to a variadic function by making the compiler think
+// it's a long int. This requires a union. Here is an example:
+//
+// union {long l; float f;} u;
+// u.f = float_val;
+// printf("%f", u.l);
+//
+// For GCC, this can be encapsulated into a macro:
+//
+// #define PASS_FLOAT(val)	(__extension__({union {long l; float f;} __u; __u.f = val; __u.l;}))
+//
+// Thus the call would become:
+//
+// printf("%f", PASS_FLOAT(float_val));
+//
+// The corresponding macro to receive the float from argument list 
+// pointer ap:
+//
+// #define VA_ARG_FLOAT(ap) (__extension__({union {long l; float f;} __u; __u.l = va_arg(ap, long); __u.f;}))
+//
+// Example:
+//
+// float_val = VA_ARG_FLOAT(ap);
+//

@@ -803,34 +803,11 @@ extern int	sscanf(const char *__buf, const char *__fmt, ...);
  */
 extern int	fflush(FILE *stream);
 #else
-static __inline__ int fflush(FILE *stream __attribute__((unused)))
+static inline int fflush(FILE *stream __attribute__((unused)))
 {
 	return 0;
 }
 #endif
-
-#ifndef __DOXYGEN__
-/* only mentioned for libstdc++ support, not implemented in library */
-#define BUFSIZ 1024
-#define _IONBF 0
-__extension__ typedef long long fpos_t;
-extern int fgetpos(FILE *stream, fpos_t *pos);
-extern FILE *fopen(const char *path, const char *mode);
-extern FILE *freopen(const char *path, const char *mode, FILE *stream);
-extern FILE *fdopen(int, const char *);
-extern int fseek(FILE *stream, long offset, int whence);
-extern int fsetpos(FILE *stream, fpos_t *pos);
-extern long ftell(FILE *stream);
-extern int fileno(FILE *);
-extern void perror(const char *s);
-extern int remove(const char *pathname);
-extern int rename(const char *oldpath, const char *newpath);
-extern void rewind(FILE *stream);
-extern void setbuf(FILE *stream, char *buf);
-extern int setvbuf(FILE *stream, char *buf, int mode, size_t size);
-extern FILE *tmpfile(void);
-extern char *tmpnam (char *s);
-#endif	/* !__DOXYGEN__ */
 
 #ifdef __cplusplus
 }
