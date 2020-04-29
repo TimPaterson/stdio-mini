@@ -372,9 +372,24 @@ typedef struct __file FILE;
    \brief Same as FDEV_SETUP_STREAM but adds initialization of user data
  */
 #define FDEV_SETUP_STREAM_UDATA(put, get, rwflag, udata)
+
+#ifdef __GNUC__
+/**
+   \brief Macro to allow passing a float to variadic functions without promotion to double
+
+   Example: <tt>printf("%f", PASS_FLOAT(f));</tt>
+ */
+#define PASS_FLOAT(val)
+#endif
+
 #else  /* !DOXYGEN */
 #define FDEV_SETUP_STREAM(p, g, f) { 0, p, g, 0, 0, 0, f }
 #define FDEV_SETUP_STREAM_UDATA(p, g, f, u) { 0, p, g, u, 0, 0, f }
+
+#ifdef __GNUC__
+#define PASS_FLOAT(val)	(__extension__({union {long l; float f;} __u; __u.f = val; __u.l;}))
+#endif
+
 #endif /* DOXYGEN */
 
 #ifdef __cplusplus

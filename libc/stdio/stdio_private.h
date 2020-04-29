@@ -84,18 +84,22 @@
 // printf("%f", u.l);
 //
 // For GCC, this can be encapsulated into a macro:
-//
-// #define PASS_FLOAT(val)	(__extension__({union {long l; float f;} __u; __u.f = val; __u.l;}))
-//
+
+#ifdef __GNUC__
+#define PASS_FLOAT(val)	(__extension__({union {long l; float f;} __u; __u.f = val; __u.l;}))
+#endif
+
 // Thus the call would become:
 //
 // printf("%f", PASS_FLOAT(float_val));
 //
 // The corresponding macro to receive the float from argument list 
 // pointer ap:
-//
-// #define VA_ARG_FLOAT(ap) (__extension__({union {long l; float f;} __u; __u.l = va_arg(ap, long); __u.f;}))
-//
+
+#ifdef __GNUC__
+#define VA_ARG_FLOAT(ap) (__extension__({union {long l; float f;} __u; __u.l = va_arg(ap, long); __u.f;}))
+#endif
+
 // Example:
 //
 // float_val = VA_ARG_FLOAT(ap);
