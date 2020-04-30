@@ -72,6 +72,12 @@
 #define FP_MATH_LEVEL	FP_MATH_FLOAT
 #endif
 
+// And double always includes long long
+#if FP_MATH_LEVEL == FP_MATH_DOUBLE
+#undef INT_MATH_LEVEL
+#define INT_MATH_LEVEL	INT_MATH_LONG_LONG
+#endif
+
 //*************************************************************************
 // Passing a float to a variadic function
 //*************************************************************************
@@ -79,14 +85,14 @@
 // Type float is passed to a variadic function by making the compiler think
 // it's a long int. This requires a union. Here is an example:
 //
-// union {long l; float f;} u;
+// union {uint32_t l; float f;} u;
 // u.f = float_val;
 // printf("%f", u.l);
 //
 // For GCC, this can be encapsulated into a macro:
 
 #ifdef __GNUC__
-#define PASS_FLOAT(val)	(__extension__({union {long l; float f;} __u; __u.f = val; __u.l;}))
+#define PASS_FLOAT(val)	(__extension__({union {uint32_t l; float f;} __u; __u.f = val; __u.l;}))
 #endif
 
 // Thus the call would become:
@@ -97,7 +103,7 @@
 // pointer ap:
 
 #ifdef __GNUC__
-#define VA_ARG_FLOAT(ap) (__extension__({union {long l; float f;} __u; __u.l = va_arg(ap, long); __u.f;}))
+#define VA_ARG_FLOAT(ap) (__extension__({union {uint32_t l; float f;} __u; __u.l = va_arg(ap, uint32_t); __u.f;}))
 #endif
 
 // Example:

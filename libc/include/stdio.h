@@ -234,14 +234,17 @@
  * changed without warnings at any time.  Please do *never* reference
  * elements of it beyond by using the official interfaces provided.
  */
+ typedef void __dev_put_t(void *, char);
+ typedef int __dev_get_t(void *);
+
 struct __file {
-	char	*buf;		/* buffer pointer */
-	int (*put)(char, struct __file *);	/* function to write one char to device */
-	int (*get)(struct __file *);	/* function to read one char from device */
-	void	*udata;		/* User defined and accessible data. */
-	int		size;		/* size of buffer */
-	int		len;		/* characters read or written so far */
-	uint8_t	flags;		/* flags, see below */
+	char		*buf;		/* buffer pointer */
+	__dev_put_t *put;		/* function to write one char to device */
+	__dev_get_t	*get;		/* function to read one char from device */
+	void		*udata;		/* User defined and accessible data. */
+	int			size;		/* size of buffer */
+	int			len;		/* characters read or written so far */
+	uint8_t		flags;		/* flags, see below */
 	unsigned char unget;	/* ungetc() buffer */
 #define __SRD	0x0001		/* OK to read */
 #define __SWR	0x0002		/* OK to write */
@@ -342,6 +345,7 @@ typedef struct __file FILE;
 #define _FDEV_SETUP_READ  __SRD	/**< fdev_setup_stream() with read intent */
 #define _FDEV_SETUP_WRITE __SWR	/**< fdev_setup_stream() with write intent */
 #define _FDEV_SETUP_RW    (__SRD|__SWR)	/**< fdev_setup_stream() with read/write intent */
+#define _FDEV_SETUP_CRLF  __SCRLF /**< fdev_setup_stream() with LF converted to CR/LF */
 
 /**
  * Return code for an error condition during device read.
@@ -386,8 +390,10 @@ typedef struct __file FILE;
 #define FDEV_SETUP_STREAM(p, g, f) { 0, p, g, 0, 0, 0, f }
 #define FDEV_SETUP_STREAM_UDATA(p, g, f, u) { 0, p, g, u, 0, 0, f }
 
+#define FDEV_STANDARD_STREAMS(out, in) FILE *__iob[] = { in, out }
+
 #ifdef __GNUC__
-#define PASS_FLOAT(val)	(__extension__({union {long l; float f;} __u; __u.f = val; __u.l;}))
+#define PASS_FLOAT(val)	(__extension__({union {uint32_t l; float f;} __u; __u.f = val; __u.l;}))
 #endif
 
 #endif /* DOXYGEN */

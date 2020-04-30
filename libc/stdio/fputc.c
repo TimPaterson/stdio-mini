@@ -33,20 +33,19 @@
 
 int fputc(int c, FILE *stream)
 {
-
 	if ((stream->flags & __SWR) == 0)
 		return EOF;
+
+	// Turn LF into CRLF if flagged
+	if ((stream->flags & __SCRLF ) && c == 0x0A)
+		fputc(0x0D, stream);
 
 	if (stream->flags & __SSTR) {
 		if (stream->len < stream->size)
 			*stream->buf++ = c;
-		stream->len++;
-		return c;
 	} else {
-		if (stream->put(c, stream) == 0) {
-			stream->len++;
-			return c;
-		} else
-			return EOF;
+		stream->put(stream->udata, c);
 	}
+	stream->len++;
+	return c;
 }

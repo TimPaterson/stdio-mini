@@ -109,25 +109,21 @@ void Init()
 // File I/O
 //*********************************************************************
 
-int WriteByte(char c, FILE *stream)
+void WriteByte(void *pv, char c)
 {
 	while (!SERCOM0->USART.INTFLAG.bit.DRE);
 	SERCOM0->USART.DATA.reg = c;
-	return 0;
 }
 
-int ReadByte(FILE *stream)
+int ReadByte(void *pv)
 {
 	while (!SERCOM0->USART.INTFLAG.bit.RXC);
 	return SERCOM0->USART.DATA.reg;
 }
 
-FILE SercomIo = FDEV_SETUP_STREAM(WriteByte, ReadByte, _FDEV_SETUP_RW);
+FILE SercomIo = FDEV_SETUP_STREAM(WriteByte, ReadByte, _FDEV_SETUP_RW | _FDEV_SETUP_CRLF);
 
-FILE *__iob[] = { 
-	&SercomIo,	// stdin
-	&SercomIo,	// stdout
-};
+FDEV_STANDARD_STREAMS(&SercomIo, &SercomIo);	// stdout, stdin
 
 //*********************************************************************
 // Main program
@@ -138,8 +134,8 @@ int main(void)
     StartClock();
     Init();
 
-	printf("Starting version %i\r\n", VERSION);
-	printf("Value: %.2f\r\n", PASS_FLOAT(0.999));
+	printf("Starting version %i\n", VERSION);
+	printf("Value: %.2f\n", PASS_FLOAT(0.999));
 
     /* Replace with your application code */
     while (1) 

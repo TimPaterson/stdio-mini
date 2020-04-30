@@ -243,9 +243,9 @@ int vfprintf (FILE * stream, const char *fmt, va_list ap)
 				ndigs = 0;
 			}
 #if FP_MATH_LEVEL == FP_MATH_FLOAT
-			 union {long l; float f;} u;
-			 u.l = va_arg(ap, long);
-			 exp = __ftoa(u.f, (char *)buf, vtype, ndigs);
+			union {uint32_t l; float f;} u;
+			u.l = va_arg(ap, uint32_t);
+			exp = __ftoa(u.f, (char *)buf, vtype, ndigs);
 #else
 			exp = __dtoa(va_arg(ap,double), (char *)buf, vtype, ndigs);
 #endif

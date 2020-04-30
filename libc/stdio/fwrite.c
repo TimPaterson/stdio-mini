@@ -41,7 +41,7 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 
 	for (i = 0, cp = (const uint8_t *)ptr; i < nmemb; i++)
 		for (j = 0; j < size; j++)
-			if (stream->put(*cp++, stream) != 0)
+			if (fputc(*cp++, stream) != 0)
 				return i;
 
 	return i;

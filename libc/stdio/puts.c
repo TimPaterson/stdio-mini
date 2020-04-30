@@ -40,9 +40,9 @@ int puts(const char *str)
 		return EOF;
 
 	while ((c = *str++) != '\0')
-		if (stdout->put(c, stdout) != 0)
+		if (fputc(c, stdout) != 0)
 			rv = EOF;
-	if (stdout->put('\n', stdout) != 0)
+	if (fputc('\n', stdout) != 0)
 		rv = EOF;
 
 	return rv;
