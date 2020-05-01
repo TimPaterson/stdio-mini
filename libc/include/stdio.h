@@ -234,13 +234,13 @@
  * changed without warnings at any time.  Please do *never* reference
  * elements of it beyond by using the official interfaces provided.
  */
- typedef void __dev_put_t(void *, char);
- typedef int __dev_get_t(void *);
+ typedef void _fdev_put_t(void *, char);
+ typedef int  _fdev_get_t(void *);
 
 struct __file {
 	char		*buf;		/* buffer pointer */
-	__dev_put_t *put;		/* function to write one char to device */
-	__dev_get_t	*get;		/* function to read one char from device */
+	_fdev_put_t *put;		/* function to write one char to device */
+	_fdev_get_t	*get;		/* function to read one char from device */
 	void		*udata;		/* User defined and accessible data. */
 	int			size;		/* size of buffer */
 	int			len;		/* characters read or written so far */
