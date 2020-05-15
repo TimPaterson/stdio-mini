@@ -39,8 +39,8 @@ int vsprintf(char *s, const char *fmt, va_list ap)
 	int i;
 
 	f.flags = __SWR | __SSTR;
-	f.buf = s;
-	f.size = INT_MAX;
+	f.u.mem.buf = s;
+	f.u.mem.size = INT_MAX;
 	i = vfprintf(&f, fmt, ap);
 	s[f.len] = 0;
 

@@ -41,10 +41,10 @@ int fputc(int c, FILE *stream)
 		fputc(0x0D, stream);
 
 	if (stream->flags & __SSTR) {
-		if (stream->len < stream->size)
-			*stream->buf++ = c;
+		if (stream->len < stream->u.mem.size)
+			*stream->u.mem.buf++ = c;
 	} else {
-		stream->put(stream->udata, c);
+		stream->u.dev.put(stream->udata, c);
 	}
 	stream->len++;
 	return c;

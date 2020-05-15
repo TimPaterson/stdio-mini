@@ -40,22 +40,22 @@ int snprintf(char *s, size_t n, const char *fmt, ...)
 	int i;
 
 	f.flags = __SWR | __SSTR;
-	f.buf = s;
+	f.u.mem.buf = s;
 	/* Restrict max output length to INT_MAX, as snprintf() return
 	   signed int. The fputc() function uses a signed comparison
-	   between estimated len and f.size field. So we can write a
-	   negative value into f.size in the case of n was 0. Note,
-	   that f.size will be a max number of nonzero symbols.	*/
+	   between estimated len and f.u.mem.size field. So we can write a
+	   negative value into f.u.mem.size in the case of n was 0. Note,
+	   that f.u.mem.size will be a max number of nonzero symbols.	*/
 	if ((int)n < 0)
 		n = (unsigned)INT_MAX + 1;
-	f.size = n - 1;				/* -1,0,...INT_MAX */
+	f.u.mem.size = n - 1;				/* -1,0,...INT_MAX */
 
 	va_start(ap, fmt);
 	i = vfprintf(&f, fmt, ap);
 	va_end(ap);
 
-	if (f.size >= 0)
-		s[f.len < f.size ? f.len : f.size] = 0;
+	if (f.u.mem.size >= 0)
+		s[f.len < f.u.mem.size ? f.len : f.u.mem.size] = 0;
 
 	return i;
 }

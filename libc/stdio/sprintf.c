@@ -40,8 +40,8 @@ int sprintf(char *s, const char *fmt, ...)
 	int i;
 
 	f.flags = __SWR | __SSTR;
-	f.buf = s;
-	f.size = INT_MAX;
+	f.u.mem.buf = s;
+	f.u.mem.size = INT_MAX;
 	va_start(ap, fmt);
 	i = vfprintf(&f, fmt, ap);
 	va_end(ap);

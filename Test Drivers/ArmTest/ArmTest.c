@@ -134,6 +134,9 @@ int main(void)
     StartClock();
     Init();
 
+	// Test runtime initialization too
+	fdev_setup_stream(&SercomIo, WriteByte, ReadByte, _FDEV_SETUP_RW | _FDEV_SETUP_CRLF);
+
 	printf("Starting version %i\n", VERSION);
 	printf("Value: %.2f\n", PASS_FLOAT(0.999));
 

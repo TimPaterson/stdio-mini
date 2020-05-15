@@ -45,15 +45,15 @@ int fgetc(FILE *stream)
 	}
 
 	if (stream->flags & __SSTR) {
-		rv = *stream->buf;
+		rv = *stream->u.mem.buf;
 		if (rv == '\0') {
 			stream->flags |= __SEOF;
 			return EOF;
 		} else {
-			stream->buf++;
+			stream->u.mem.buf++;
 		}
 	} else {
-		rv = stream->get(stream);
+		rv = stream->u.dev.get(stream);
 		if (rv < 0) {
 			/* if != _FDEV_ERR, assume it's _FDEV_EOF */
 			stream->flags |= (rv == _FDEV_ERR)? __SERR: __SEOF;
