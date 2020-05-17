@@ -67,11 +67,7 @@
 # error	 "Not a known scanf level."
 #endif
 
-#if	SCANF_WWIDTH
 typedef unsigned int width_t;
-#else
-typedef unsigned char width_t;
-#endif
 
 #if  SHRT_MAX != INT_MAX
 // UNDONE: # error  "SHRT_MAX != INT_MAX for target: not supported"

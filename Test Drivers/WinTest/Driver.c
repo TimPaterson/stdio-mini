@@ -3,10 +3,21 @@
 
 char Buf[100];
 
-char* Test(char* pszFormat, float fVal)
+char* TestFloat(char* pszFormat, float fVal)
 {
 	union {long l; float f;} u;
 	u.f = fVal;
-	sprintf(Buf, pszFormat, u.l);
+	snprintf(Buf, sizeof(Buf), pszFormat, u.l);
 	return Buf;
 }
+
+char* Test(char* pszFormat, ...)
+{
+	va_list ap;
+
+	va_start(ap, pszFormat);
+	vsnprintf(Buf, sizeof(Buf), pszFormat, ap);
+	va_end(ap);
+	return Buf;
+}
+

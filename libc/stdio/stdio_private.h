@@ -40,9 +40,9 @@
 // This library can be compiled with different levels of math support.
 // The minimum is level is long int. The following levels can be added:
 //
-// long long, float/double not required
-// float, long long not required (no double)
-// double, requires long long (no float)
+// long long; float/double not required
+// float; long long not required (no double)
+// double; requires long long (no float)
 //
 // WARNING FOR FLOAT!!: Variadic functions like printf cannot be
 // directly passed a float; the compiler will automatically promote it
@@ -78,6 +78,7 @@
 #define INT_MATH_LEVEL	INT_MATH_LONG_LONG
 #endif
 
+#if FP_MATH_LEVEL == FP_MATH_FLOAT
 //*************************************************************************
 // Passing a float to a variadic function
 //*************************************************************************
@@ -110,3 +111,4 @@
 //
 // float_val = VA_ARG_FLOAT(ap);
 //
+#endif

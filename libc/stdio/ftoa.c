@@ -10,8 +10,6 @@
 #include <math.h>
 
 
-typedef unsigned long ulong;
-
 //*************************************************************************
 
 // IEEE single
@@ -24,12 +22,12 @@ typedef unsigned long ulong;
 typedef union
 {
 	float	f;
-	long	l;
+	int32_t	l;
 	struct  
 	{
-		ulong mant:FLOAT_MANTISSA_BITS;
-		ulong exp:FLOAT_EXP_BITS;
-		ulong sign:1;
+		uint32_t mant:FLOAT_MANTISSA_BITS;
+		uint32_t exp:FLOAT_EXP_BITS;
+		uint32_t sign:1;
 	} bits;
 } float_struct;
 
@@ -78,7 +76,7 @@ float Power10table[] =
 	int		exp10;
 	char	digit;
 	char	flags;
-	ulong	mant;
+	unsigned long	mant;
 	float_struct	flt;
 
 	// Multiply the input by a power of 10 so that 0.04 <= val < 8.
