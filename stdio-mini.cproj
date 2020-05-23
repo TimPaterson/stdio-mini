@@ -323,6 +323,9 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
     <Compile Include="libc\stdio\convtoa.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="libc\stdio\dtoa.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="libc\stdio\feof.c">
       <SubType>compile</SubType>
     </Compile>

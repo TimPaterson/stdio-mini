@@ -13,11 +13,11 @@
 //*************************************************************************
 
 // IEEE single
-#define FLOAT_EXP_BITS		8
-#define FLOAT_MANTISSA_BITS 23
-#define FLOAT_EXP_BIAS		127
-#define FLOAT_MAX_EXP		((1 << FLOAT_EXP_BITS) - 1)
-#define FLOAT_SIGN_BIT		(1 << 31)
+#define EXP_BITS		8
+#define MANTISSA_BITS	23
+#define EXP_BIAS		127
+#define MAX_EXP			((1 << EXP_BITS) - 1)
+#define SIGN_BIT		(1 << 31)
 
 typedef union
 {
@@ -25,9 +25,9 @@ typedef union
 	int32_t	l;
 	struct  
 	{
-		uint32_t mant:FLOAT_MANTISSA_BITS;
-		uint32_t exp:FLOAT_EXP_BITS;
-		uint32_t sign:1;
+		uint32_t	mant:MANTISSA_BITS;
+		uint32_t	exp:EXP_BITS;
+		uint32_t	sign:1;
 	} bits;
 } float_struct;
 
@@ -38,9 +38,9 @@ typedef union
 
 //*************************************************************************
 
-float Power10table[] =
+float fltPower10table[] =
 {
-	1e+38f, 1e+36f, 1e+34f, 1e+32f, 1e+30f, 1e+28f, 1e+26f, 1e+24f,1e+22f, 
+	1e+38f, 1e+36f, 1e+34f, 1e+32f, 1e+30f, 1e+28f, 1e+26f, 1e+24f, 1e+22f, 
 	1e+20f, 1e+18f, 1e+16f, 1e+14f, 1e+12f, 1e+10f, 1e+8f, 1e+6f, 1e+4f, 1e+2f,
 	// 1e+0 skipped
 	1e-2f, 1e-4f, 1e-6f, 1e-8f, 1e-10f, 1e-12f, 1e-14f, 1e-16f, 1e-18f, 1e-20f,
@@ -70,13 +70,13 @@ float Power10table[] =
     * If used, 'maxdgs' is a number of digits for value with zero exponent.
 */
 
- int __ftoa(float val, char *buf, int prec, int maxdgs)
- {
-	int		exp;
-	int		exp10;
-	char	digit;
-	char	flags;
-	unsigned long	mant;
+int __ftoa(float val, char *buf, int prec, int maxdgs)
+{
+	int			exp;
+	int			exp10;
+	char		digit;
+	char		flags;
+	uint32_t	mant;
 	float_struct	flt;
 
 	// Multiply the input by a power of 10 so that 0.04 <= val < 8.
@@ -96,17 +96,17 @@ float Power10table[] =
 	// it's fast and without loss of precision.
 
 	flt.f = val;
-	if ((flt.l & ~FLOAT_SIGN_BIT) == 0)
+	if ((flt.l & ~SIGN_BIT) == 0)
 	{
 		*buf++ = FTOA_ZERO;
-		for (; prec > 0; prec--)
+		for (; prec > -2; prec--)
 			*buf++ = '0';
 		return 0;
 	}
 
 	exp = flt.bits.exp;
 	flags = flt.bits.sign ? FTOA_MINUS : 0;
-	if (exp == FLOAT_MAX_EXP)
+	if (exp == MAX_EXP)
 	{
 		// Infinity or NAN
 		flags |= flt.bits.mant == 0 ? FTOA_INF : FTOA_NAN;
@@ -115,25 +115,42 @@ float Power10table[] =
 	}
 	*buf++ = flags;
 
-	exp -= FLOAT_EXP_BIAS + 2;
+	exp -= EXP_BIAS + 2;
 	// Adding Log10_2_mask below is what performs the ceil() function.
 	// Shift by Log10_2_shift + 1 because we only use even powers of 10.
 	exp10 = (((long)exp * Exp2toExp10) + Log10_2_mask) >> (Log10_2_shift + 1);
 	if (exp10 != 0)	// skip 10^0
 	{
 		// table has no entry for 10^0, skip over it
-		flt.f *= Power10table[exp10 + MAX_POWER / 2 + (exp10 < 0 ? 0 : -1)];
+		flt.f *= fltPower10table[exp10 + MAX_POWER / 2 + (exp10 < 0 ? 0 : -1)];
 	}
 	exp10 *= 2;	// back to actual power of 10
-	mant = flt.bits.mant | (1 << FLOAT_MANTISSA_BITS);
-	exp = flt.bits.exp - FLOAT_EXP_BIAS;
-	// Mantissa is adjusted by exp, -5 <= exp <= 2. We add 5 so it we 
-	// only shift one way. If exp were zero, the shift would put 
-	// mantissa MSB at FLOAT_MANTISSA_BITS + 5, and the bit would
-	// represent the value 1. So our decimal digit will be formed from 
-	// that bit and the bits above it.
-#define DIGIT_SHIFT	(FLOAT_MANTISSA_BITS + 5)
-	mant <<= exp + 5;	// -5 <= exp <= 2, so max of 7
+	mant = flt.bits.mant | (1 << MANTISSA_BITS);
+	exp = flt.bits.exp - EXP_BIAS;
+	// Shift mantissa for actual binary exponent. Target range was
+	// -5 <= exp <= 2, but it could be less if original number was
+	// denormal. We add 5 so in normal case we only shift one way.
+	// If exp were zero, the shift would put mantissa MSB at
+	// MANTISSA_BITS + 5, and the bit would represent the
+	// value 1. So our decimal digit will be formed from that bit
+	// and the bits above it.
+#define DIGIT_SHIFT	(MANTISSA_BITS + 5)
+	exp += 5;	// exp <= 2, so max of 7
+	if (exp < 0)
+	{
+		// Handle denormal case.
+		uint32_t lsb, rnd;
+
+		lsb = 1 << -exp;
+		rnd = lsb >> 1;
+		// If result LSB is zero (even) and all bits below rounding bits
+		// are zero, skip round up.
+		if ((mant & (lsb | (rnd - 1))) != 0)
+			mant += rnd;
+		mant >>= -exp;
+	}
+	else
+		mant <<= exp;
 
 	// Scan off leading zeros
 	for(;;) 
@@ -175,7 +192,7 @@ float Power10table[] =
 	}
 
 	// Round up if mantissa is > 0.5 or == 0.5 and digit is odd
-#define ROUND_VALUE	(1 << 27)
+#define ROUND_VALUE	(1 << (DIGIT_SHIFT - 1))
 	if (mant > ROUND_VALUE || (mant == ROUND_VALUE && (digit & 1)))
 	{
 		// End with a zero in case we round from 9.9..9 to 10.0..0
@@ -204,4 +221,4 @@ float Power10table[] =
 	}
 
 	return exp10;
- }
+}

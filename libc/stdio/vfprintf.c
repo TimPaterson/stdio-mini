@@ -133,10 +133,12 @@ inline unsigned char* __ultoa_rev(unsigned long val, unsigned char* str, unsigne
 #define MAX_OCT_DIGITS	((sizeof(long long) * 8 + 2) / 3)
 #endif
 
-#if  FP_MATH_LEVEL == FP_MATH_NONE
-#define MAX_FP_DIGITS	7
-#else
+#if  FP_MATH_LEVEL == FP_MATH_DOUBLE
 #define MAX_FP_DIGITS	17
+#define MIN_EXP_WIDTH	6	/* 1e+000 */
+#else
+#define MAX_FP_DIGITS	7
+#define MIN_EXP_WIDTH	5	/* 1e+00 */
 #endif
 
 #define BUF_SIZE (MAX_FP_DIGITS > MAX_OCT_DIGITS ? MAX_FP_DIGITS : MAX_OCT_DIGITS)
@@ -398,7 +400,7 @@ flt_oper:
 			if (flags & FL_FLTFIX)
 				n = (exp > 0 ? exp + 1 : 1);
 			else
-				n = 5;		/* 1e+00 */
+				n = MIN_EXP_WIDTH;
 			if (sign) n += 1;
 			if (prec) n += prec + 1;
 			width = width > n ? width - n : 0;
@@ -471,6 +473,11 @@ flt_oper:
 					ndigs = '-';
 				}
 				putc(ndigs, stream);
+#if  FP_MATH_LEVEL == FP_MATH_DOUBLE
+				for (ndigs = '0'; exp >= 100; exp -= 100)
+					ndigs += 1;
+				putc(ndigs, stream);
+#endif
 				for (ndigs = '0'; exp >= 10; exp -= 10)
 					ndigs += 1;
 				putc(ndigs, stream);

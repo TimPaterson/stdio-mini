@@ -5,9 +5,9 @@ char Buf[100];
 
 char* TestFloat(char* pszFormat, float fVal)
 {
-	union {long l; float f;} u;
+	union {uint32_t l; float f;} u;
 	u.f = fVal;
-	snprintf(Buf, sizeof(Buf), pszFormat, u.l);
+	snprintf(Buf, sizeof(Buf), pszFormat, u.l, 'x', 't');
 	return Buf;
 }
 

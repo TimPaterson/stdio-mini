@@ -108,6 +108,9 @@
     <ClCompile Include="Driver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libc\stdio\dtoa.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libc\stdio\convtoa.h">

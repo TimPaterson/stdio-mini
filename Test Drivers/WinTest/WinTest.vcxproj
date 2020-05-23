@@ -379,6 +379,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\libc\stdio\clearerr.c" />
+    <ClCompile Include="..\..\libc\stdio\dtoa.c" />
     <ClCompile Include="..\..\libc\stdio\feof.c" />
     <ClCompile Include="..\..\libc\stdio\ferror.c" />
     <ClCompile Include="..\..\libc\stdio\fgetc.c" />
