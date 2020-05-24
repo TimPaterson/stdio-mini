@@ -414,7 +414,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\libc\include\stdio.h" />
     <ClInclude Include="..\..\libc\stdio\convtoa.h" />
-    <ClInclude Include="..\..\libc\stdio\ftoa_engine.h" />
     <ClInclude Include="..\..\libc\stdio\stdio_private.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

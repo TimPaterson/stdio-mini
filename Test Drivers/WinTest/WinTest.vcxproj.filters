@@ -116,9 +116,6 @@
     <ClInclude Include="..\..\libc\stdio\convtoa.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libc\stdio\ftoa_engine.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\libc\include\stdio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
