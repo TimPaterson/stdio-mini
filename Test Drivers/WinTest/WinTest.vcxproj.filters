@@ -111,6 +111,18 @@
     <ClCompile Include="..\..\libc\stdio\dtoa.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libc\stdio\strconvhelp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libc\stdio\strconvf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libc\stdio\mulpower100d.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libc\stdio\mulpower100f.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libc\stdio\convtoa.h">
@@ -120,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libc\stdio\stdio_private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libc\stdio\strconv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

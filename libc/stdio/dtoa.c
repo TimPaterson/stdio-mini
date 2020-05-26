@@ -5,9 +5,10 @@
  *  Author: Tim
  */
 
+#include <math.h>
 #include "stdio_private.h"
 #include "convtoa.h"
-#include <math.h>
+#include "strconv.h"
 
 
  //*************************************************************************
@@ -37,25 +38,6 @@ typedef union
 #define Exp2toExp10		(lround(Log10_2 * (double)(1 << Log10_2_shift)))
 
 //*************************************************************************
-
-double Power10tableSmall[] =
-{
-	1e+30, 1e+28, 1e+26, 1e+24, 1e+22, 1e+20, 1e+18,
-	1e+16, 1e+14, 1e+12, 1e+10, 1e+8, 1e+6, 1e+4, 1e+2
-};
-
-double Power10tableLarge[] =
-{
-	1e+288, 1e+256, 1e+224, 1e+192, 1e+160, 1e+128, 1e+96, 1e+64, 1e+32,
-	1e-32, 1e-64, 1e-96, 1e-128, 1e-160, 1e-192, 1e-224, 1e-256, 1e-288
-};
-#define SMALL_POWER_BITS	4
-#define SMALL_POWER_MASK	((1 << SMALL_POWER_BITS) - 1)
-#define MAX_TABLE_POWER		288
-#define LARGE_POWER_BASE	((MAX_TABLE_POWER >> SMALL_POWER_BITS) / 2)
-#define MAX_POWER			308
-#define MIN_POWER_10		(1E-308)
-
 /*
 	int __dtoa(double val, char *buf, int prec, int maxdgs)
 
@@ -129,27 +111,7 @@ int __dtoa(double val, char* buf, int prec, int maxdgs)
 	// Adding Log10_2_mask below is what performs the ceil() function.
 	// Shift by Log10_2_shift + 1 because we only use even powers of 10.
 	exp10 = (((long)exp * Exp2toExp10) + Log10_2_mask) >> (Log10_2_shift + 1);
-	if (exp10 != 0)	// skip 10^0
-	{
-		int	expPart;
-
-		if (exp10 > MAX_TABLE_POWER / 2)
-		{
-			dbl.d *= MIN_POWER_10;
-			expPart = exp10 - (MAX_POWER / 2);
-		}
-		else
-		{
-			expPart = ((exp10 + SMALL_POWER_MASK) >> SMALL_POWER_BITS);
-			if (expPart != 0)
-				dbl.d *= Power10tableLarge[expPart + LARGE_POWER_BASE + (expPart < 0 ? 0 : -1)];
-
-			expPart = exp10;
-		}
-		expPart &= SMALL_POWER_MASK;
-		if (expPart != 0)
-			dbl.d *= Power10tableSmall[expPart - 1];
-	}
+	dbl.d = __mulpower100d(dbl.d, -exp10);
 	exp10 *= 2;	// back to actual power of 10
 	mant = dbl.bits.mant | (1LL << MANTISSA_BITS);
 	exp = (int)dbl.bits.exp - EXP_BIAS;

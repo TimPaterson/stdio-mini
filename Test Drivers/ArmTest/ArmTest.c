@@ -131,6 +131,8 @@ FDEV_STANDARD_STREAMS(&SercomIo, &SercomIo);	// stdout, stdin
 
 int main(void)
 {
+	float	flt;
+
     StartClock();
     Init();
 
@@ -139,6 +141,7 @@ int main(void)
 
 	printf("Starting version %i\n", VERSION);
 	printf("Value: %.2f\n", PASS_FLOAT(0.999));
+	scanf("%f", &flt);
 
     /* Replace with your application code */
     while (1) 

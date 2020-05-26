@@ -5,9 +5,10 @@
  *  Author: Tim
  */ 
 
+#include <math.h>
 #include "stdio_private.h"
 #include "convtoa.h"
-#include <math.h>
+#include "strconv.h"
 
 
 //*************************************************************************
@@ -37,16 +38,6 @@ typedef union
 #define Exp2toExp10		(lround(Log10_2 * (double)(1 << Log10_2_shift)))
 
 //*************************************************************************
-
-float fltPower10table[] =
-{
-	1e+38f, 1e+36f, 1e+34f, 1e+32f, 1e+30f, 1e+28f, 1e+26f, 1e+24f, 1e+22f, 
-	1e+20f, 1e+18f, 1e+16f, 1e+14f, 1e+12f, 1e+10f, 1e+8f, 1e+6f, 1e+4f, 1e+2f,
-	// 1e+0 skipped
-	1e-2f, 1e-4f, 1e-6f, 1e-8f, 1e-10f, 1e-12f, 1e-14f, 1e-16f, 1e-18f, 1e-20f,
-	1e-22f, 1e-24f, 1e-26f, 1e-28f, 1e-30f, 1e-32f, 1e-34f, 1e-36f, 1e-38f
-};
-#define MAX_POWER 38
 
 /*
 	int __ftoa(float val, char *buf, int prec, int maxdgs)
@@ -119,11 +110,7 @@ int __ftoa(float val, char *buf, int prec, int maxdgs)
 	// Adding Log10_2_mask below is what performs the ceil() function.
 	// Shift by Log10_2_shift + 1 because we only use even powers of 10.
 	exp10 = (((long)exp * Exp2toExp10) + Log10_2_mask) >> (Log10_2_shift + 1);
-	if (exp10 != 0)	// skip 10^0
-	{
-		// table has no entry for 10^0, skip over it
-		flt.f *= fltPower10table[exp10 + MAX_POWER / 2 + (exp10 < 0 ? 0 : -1)];
-	}
+	flt.f = __mulpower100f(flt.f, -exp10);
 	exp10 *= 2;	// back to actual power of 10
 	mant = flt.bits.mant | (1 << MANTISSA_BITS);
 	exp = flt.bits.exp - EXP_BIAS;

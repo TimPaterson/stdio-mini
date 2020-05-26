@@ -43,6 +43,7 @@
 // long long; float/double not required
 // float; long long not required (no double)
 // double; requires long long (no float)
+// both float & double (scanf family only; double for printf family)
 //
 // WARNING FOR FLOAT!!: Variadic functions like printf cannot be
 // directly passed a float; the compiler will automatically promote it
@@ -59,9 +60,10 @@
 #define INT_MATH_LONG_LONG	1
 
 // Values for FP_MATH_LEVEL
-#define FP_MATH_NONE	0
-#define FP_MATH_FLOAT	1
-#define FP_MATH_DOUBLE	2
+#define FP_MATH_NONE    0
+#define FP_MATH_FLT     1
+#define FP_MATH_DBL     2
+#define FP_MATH_FLT_DBL 3
 
 // If not set on the compiler command line, set defaults here:
 #ifndef INT_MATH_LEVEL
@@ -69,16 +71,16 @@
 #endif
 
 #ifndef FP_MATH_LEVEL
-#define FP_MATH_LEVEL	FP_MATH_FLOAT
+#define FP_MATH_LEVEL	FP_MATH_FLT
 #endif
 
 // And double always includes long long
-#if FP_MATH_LEVEL == FP_MATH_DOUBLE
+#if FP_MATH_LEVEL >= FP_MATH_DBL
 #undef INT_MATH_LEVEL
 #define INT_MATH_LEVEL	INT_MATH_LONG_LONG
 #endif
 
-#if FP_MATH_LEVEL == FP_MATH_FLOAT
+#if FP_MATH_LEVEL == FP_MATH_FLT
 //*************************************************************************
 // Passing a float to a variadic function
 //*************************************************************************

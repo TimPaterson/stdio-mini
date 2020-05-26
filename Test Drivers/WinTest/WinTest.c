@@ -24,10 +24,14 @@ int main(int argc, char** argv)
 	print(Test("INT_MATH_LEVEL = %i", INT_MATH_LEVEL));
 	print(Test("FP_MATH_LEVEL = %i", FP_MATH_LEVEL));
 
-#if FP_MATH_LEVEL == FP_MATH_FLOAT
+#if FP_MATH_LEVEL == FP_MATH_FLT
+	float	flt;
 	print("\nSingle floating point");
 	print(TestFloat("%.2f next:%c%c", 0.999f));
 	print(TestFloat("%.2f next:%c%c", -0.999f));
+
+	sscanf(" -123.456E-2", "%f", &flt);
+	print(TestFloat("%g", flt));
 
 	print(TestFloat("%G next:%c%c", 1.23456789E0f));
 	print(TestFloat("%G next:%c%c", 1.23456789E1f));
@@ -119,7 +123,7 @@ int main(int argc, char** argv)
 	print(TestFloat("%G next:%c%c", 1.23456789E-46f));
 #endif
 
-#if FP_MATH_LEVEL == FP_MATH_DOUBLE
+#if FP_MATH_LEVEL >= FP_MATH_DBL
 	print("\nDouble floating point");
 	print(Test("%G next:%c%c", 1.23456789E0, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E1, 'x', 't'));
@@ -142,6 +146,15 @@ int main(int argc, char** argv)
 	print(Test("%G next:%c%c", 1.23456789E18, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E19, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E20, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E21, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E22, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E23, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E24, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E25, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E26, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E27, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E28, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E29, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E30, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E31, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E32, 'x', 't'));
@@ -214,6 +227,15 @@ int main(int argc, char** argv)
 	print(Test("%G next:%c%c", 1.23456789E-18, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E-19, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E-20, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-21, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-22, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-23, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-24, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-25, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-26, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-27, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-28, 'x', 't'));
+	print(Test("%G next:%c%c", 1.23456789E-29, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E-30, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E-31, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E-32, 'x', 't'));

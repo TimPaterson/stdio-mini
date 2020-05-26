@@ -43,7 +43,7 @@
       </framework-data>
     </AsfFrameworkConfig>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'libstdio-l' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'stdio-l' ">
     <ToolchainSettings>
       <ArmGcc>
   <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
@@ -95,9 +95,9 @@
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'libstdio-l-float' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'stdio-l-flt' ">
     <ToolchainSettings>
       <ArmGcc>
   <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
@@ -109,7 +109,7 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
   <armgcc.compiler.symbols.DefSymbols>
     <ListValues>
       <Value>INT_MATH_LEVEL=INT_MATH_MIN</Value>
-      <Value>FP_MATH_LEVEL=FP_MATH_FLOAT</Value>
+      <Value>FP_MATH_LEVEL=FP_MATH_FLT</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
   <armgcc.compiler.directories.IncludePaths>
@@ -149,9 +149,9 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'libstdio-ll-double' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll-dbl' ">
     <ToolchainSettings>
       <ArmGcc>
   <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
@@ -163,7 +163,7 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
   <armgcc.compiler.symbols.DefSymbols>
     <ListValues>
       <Value>INT_MATH_LEVEL=INT_MATH_LONG_LONG</Value>
-      <Value>FP_MATH_LEVEL=FP_MATH_DOUBLE</Value>
+      <Value>FP_MATH_LEVEL=FP_MATH_DBL</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
   <armgcc.compiler.directories.IncludePaths>
@@ -203,9 +203,9 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'libstdio-ll-float' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll-flt' ">
     <ToolchainSettings>
       <ArmGcc>
   <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
@@ -217,7 +217,7 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
   <armgcc.compiler.symbols.DefSymbols>
     <ListValues>
       <Value>INT_MATH_LEVEL=INT_MATH_LONG_LONG</Value>
-      <Value>FP_MATH_LEVEL=FP_MATH_FLOAT</Value>
+      <Value>FP_MATH_LEVEL=FP_MATH_FLT</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
   <armgcc.compiler.directories.IncludePaths>
@@ -257,9 +257,9 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'libstdio-ll' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll' ">
     <ToolchainSettings>
       <ArmGcc>
   <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
@@ -311,7 +311,59 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll-flt-dbl' ">
+    <ToolchainSettings>
+      <ArmGcc>
+  <armgcc.common.outputfiles.hex>True</armgcc.common.outputfiles.hex>
+  <armgcc.common.outputfiles.lss>True</armgcc.common.outputfiles.lss>
+  <armgcc.common.outputfiles.eep>False</armgcc.common.outputfiles.eep>
+  <armgcc.common.outputfiles.bin>False</armgcc.common.outputfiles.bin>
+  <armgcc.common.outputfiles.srec>False</armgcc.common.outputfiles.srec>
+  <armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</armgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <armgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>INT_MATH_LEVEL=INT_MATH_LONG_LONG</Value>
+      <Value>FP_MATH_LEVEL=FP_MATH_FLT_DBL</Value>
+    </ListValues>
+  </armgcc.compiler.symbols.DefSymbols>
+  <armgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.compiler.directories.IncludePaths>
+  <armgcc.compiler.optimization.level>Optimize for size (-Os)</armgcc.compiler.optimization.level>
+  <armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</armgcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
+  <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
+  <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
+  <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
+  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
+  <armgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </armgcc.linker.libraries.Libraries>
+  <armgcc.linker.optimization.EnableUnsafeMatchOptimizations>True</armgcc.linker.optimization.EnableUnsafeMatchOptimizations>
+  <armgcc.linker.optimization.EnableFastMath>True</armgcc.linker.optimization.EnableFastMath>
+  <armgcc.linker.memorysettings.ExternalRAM>False</armgcc.linker.memorysettings.ExternalRAM>
+  <armgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.assembler.general.IncludePaths>
+  <armgcc.preprocessingassembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\arm\CMSIS\5.4.0\CMSIS\Core\Include\</Value>
+      <Value>%24(PackRepoDir)\atmel\SAMC21_DFP\1.2.176\samc21\include</Value>
+    </ListValues>
+  </armgcc.preprocessingassembler.general.IncludePaths>
+</ArmGcc>
+    </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="libc\include\stdio.h">
@@ -368,6 +420,12 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
     <Compile Include="libc\stdio\iob.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="libc\stdio\mulpower100d.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\mulpower100f.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="libc\stdio\printf.c">
       <SubType>compile</SubType>
     </Compile>
@@ -391,6 +449,17 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
     </Compile>
     <Compile Include="libc\stdio\stdio_private.h">
       <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\strconv.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="libc\stdio\strconvf.c">
+      <SubType>compile</SubType>
+      <Link>libc\stdio\strconvf.c</Link>
+    </Compile>
+    <Compile Include="libc\stdio\strconvhelp.c">
+      <SubType>compile</SubType>
+      <Link>libc\stdio\strconvhelp.c</Link>
     </Compile>
     <Compile Include="libc\stdio\ungetc.c">
       <SubType>compile</SubType>

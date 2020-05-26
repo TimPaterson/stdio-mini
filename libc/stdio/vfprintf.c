@@ -37,6 +37,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <stdbool.h>
 #include "stdio_private.h"
 #include "convtoa.h"
 
@@ -51,7 +52,7 @@
 # error "Not a known integer math level."
 #endif
 
-#if FP_MATH_LEVEL == FP_MATH_NONE || FP_MATH_LEVEL == FP_MATH_FLOAT || FP_MATH_LEVEL == FP_MATH_DOUBLE
+#if FP_MATH_LEVEL == FP_MATH_NONE || FP_MATH_LEVEL == FP_MATH_FLT || FP_MATH_LEVEL == FP_MATH_DBL || FP_MATH_LEVEL == FP_MATH_FLT_DBL
  /* OK */
 #else
 # error "Not a known floating-point math level."
@@ -133,7 +134,7 @@ inline unsigned char* __ultoa_rev(unsigned long val, unsigned char* str, unsigne
 #define MAX_OCT_DIGITS	((sizeof(long long) * 8 + 2) / 3)
 #endif
 
-#if  FP_MATH_LEVEL == FP_MATH_DOUBLE
+#if  FP_MATH_LEVEL >= FP_MATH_DBL
 #define MAX_FP_DIGITS	17
 #define MIN_EXP_WIDTH	6	/* 1e+000 */
 #else
@@ -152,7 +153,7 @@ int vfprintf(FILE * stream, const char* fmt, va_list ap)
 	unsigned char buf[BUF_SIZE];
 	unsigned char *str;
 	long x;
-	_Bool fStar;
+	bool fStar;
 #if INT_MATH_LEVEL >= INT_MATH_LONG_LONG
 	long long ll;
 #endif
@@ -180,7 +181,7 @@ int vfprintf(FILE * stream, const char* fmt, va_list ap)
 		flags = 0;
 		width = 0;
 		prec = 0;
-		fStar = 0;
+		fStar = false;
 
 		// Read format flags
 		for (;; c = *fmt++)
@@ -246,7 +247,7 @@ int vfprintf(FILE * stream, const char* fmt, va_list ap)
 						goto ret;
 					width = va_arg(ap, int);
 				}
-				fStar = 1;
+				fStar = true;
 				continue;
 			}
 			break;
@@ -317,7 +318,7 @@ flt_oper:
 				vtype = prec;
 				ndigs = 0;
 			}
-#if FP_MATH_LEVEL == FP_MATH_FLOAT
+#if FP_MATH_LEVEL == FP_MATH_FLT
 			union { uint32_t l; float f; } u;
 			u.l = va_arg(ap, uint32_t);
 			exp = __ftoa(u.f, (char*)buf, vtype, ndigs);
@@ -473,7 +474,7 @@ flt_oper:
 					ndigs = '-';
 				}
 				putc(ndigs, stream);
-#if  FP_MATH_LEVEL == FP_MATH_DOUBLE
+#if  FP_MATH_LEVEL >= FP_MATH_DBL
 				for (ndigs = '0'; exp >= 100; exp -= 100)
 					ndigs += 1;
 				putc(ndigs, stream);
