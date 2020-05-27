@@ -451,6 +451,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\libc\stdio\atof.c" />
     <ClCompile Include="..\..\libc\stdio\clearerr.c" />
     <ClCompile Include="..\..\libc\stdio\dtoa.c" />
     <ClCompile Include="..\..\libc\stdio\feof.c" />
@@ -476,8 +477,11 @@
     <ClCompile Include="..\..\libc\stdio\snprintf.c" />
     <ClCompile Include="..\..\libc\stdio\sprintf.c" />
     <ClCompile Include="..\..\libc\stdio\sscanf.c" />
+    <ClCompile Include="..\..\libc\stdio\strconvd.c" />
     <ClCompile Include="..\..\libc\stdio\strconvf.c" />
     <ClCompile Include="..\..\libc\stdio\strconvhelp.c" />
+    <ClCompile Include="..\..\libc\stdio\strtod.c" />
+    <ClCompile Include="..\..\libc\stdio\strtof.c" />
     <ClCompile Include="..\..\libc\stdio\ungetc.c" />
     <ClCompile Include="..\..\libc\stdio\vfprintf.c" />
     <ClCompile Include="..\..\libc\stdio\vfscanf.c" />
@@ -486,6 +490,7 @@
     <ClCompile Include="..\..\libc\stdio\vsnprintf.c" />
     <ClCompile Include="..\..\libc\stdio\vsprintf.c" />
     <ClCompile Include="Driver.c" />
+    <ClCompile Include="Print.c" />
     <ClCompile Include="WinTest.c" />
   </ItemGroup>
   <ItemGroup>

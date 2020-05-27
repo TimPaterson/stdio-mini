@@ -39,10 +39,10 @@
 #include "strconv.h"
 
 
-bool __conv_flt(FILE* stream, int width, float* addr)
+bool __conv_dbl(FILE* stream, int width, double* addr)
 {
-	unsigned long ul;
-	float flt;
+	unsigned long long ull;
+	double dbl;
 	int i;
 	int exp;
 	int flag;
@@ -52,9 +52,9 @@ bool __conv_flt(FILE* stream, int width, float* addr)
 		return false;
 
 	if (flag & FL_NAN)
-		flt = NAN;
+		dbl = NAN;
 	else if (flag & FL_INF)
-		flt = INFINITY;
+		dbl = INFINITY;
 	else
 	{
 		if (flag & FL_SIGN)
@@ -63,7 +63,7 @@ bool __conv_flt(FILE* stream, int width, float* addr)
 		i = getc(stream);
 
 		exp = 0;
-		ul = 0;
+		ull = 0;
 		do
 		{
 			unsigned int c = i - '0';
@@ -76,16 +76,16 @@ bool __conv_flt(FILE* stream, int width, float* addr)
 					if (!(flag & FL_DOT))
 						exp += 1;
 					if (c != 0)
-						ul |= 1;	// sticky bit
+						ull |= 1;	// sticky bit
 				}
 				else
 				{
 					if (flag & FL_DOT)
 						exp -= 1;
-					ul = ul * 10 + c;
+					ull = ull * 10 + c;
 					// Keep room for extra multiply by 10 if power is odd.
 					// Still gives 26 bits, good for round & sticky bits.
-					if (ul >= (ULONG_MAX / 10 - 9) / 10)
+					if (ull >= (ULLONG_MAX / 10 - 9) / 10)
 						flag |= FL_OVFL;
 				}
 			}
@@ -137,31 +137,22 @@ bool __conv_flt(FILE* stream, int width, float* addr)
 
 		// Can only multiply by even powers of 10
 		if (exp & 1)
-			ul *= 10;
-		flt = (float)ul;
-		if (ul != 0)
+			ull *= 10;
+		dbl = (double)ull;
+		if (ull != 0)
 		{
-			if (exp < -MAX_POWER_10_FLOAT)
-			{
-				if (exp < 2 * -MAX_POWER_10_FLOAT)
-					flt = 0.0f;
-				else
-				{
-					flt *= __fltPower100table[0];
-					exp += MAX_POWER_10_FLOAT;
-					goto MulPower;
-				}
-			}
-			else if (exp > MAX_POWER_10_FLOAT)
-				flt = INFINITY;
+			if (exp < MIN_POWER_10_DOUBLE)
+				dbl = 0.0;
+			else if (exp > MAX_POWER_10_DOUBLE)
+				dbl = INFINITY;
 			else
-MulPower:		flt = __mulpower100f(flt, exp >> 1);
+				dbl = __mulpower100d(dbl, exp >> 1);
 		}
 	}
 
 	if (flag & FL_MINUS)
-		flt = -flt;
+		dbl = -dbl;
 	if (addr)
-		*addr = flt;
+		*addr = dbl;
 	return true;
 }

@@ -33,11 +33,8 @@
 /* $Id$ */
 
 #include <ctype.h>
-#include <limits.h>
 #include <math.h>
 #include <stdarg.h>
-#include <stddef.h>
-#include <stdlib.h>
 #include <string.h>
 #include "stdio_private.h"
 #include "strconv.h"
@@ -59,12 +56,7 @@
 # error "Not a known floating-point math level."
 #endif
 
-
-#if  SHRT_MAX != INT_MAX
-// UNDONE: # error  "SHRT_MAX != INT_MAX for target: not supported"
-#endif
-
-   /* Add noinline attribute to avoid GCC 4.2 optimization.	*/
+/* Add noinline attribute to avoid GCC 4.2 optimization.	*/
 
 __attribute__((noinline))
 static void putval(void* addr, long val, unsigned char flags)
@@ -75,8 +67,10 @@ static void putval(void* addr, long val, unsigned char flags)
 			*(char*)addr = (char)val;
 		else if (flags & FL_LONG)
 			*(long*)addr = val;
+		else if (flags & FL_SHORT)
+			*(short*)addr = (short)val;
 		else
-			*(int*)addr = val;
+			*(int*)addr = (int)val;
 	}
 }
 
@@ -478,6 +472,7 @@ int vfscanf(FILE* stream, const char* fmt, va_list ap)
 			switch (c)
 			{
 			case 'h':
+				flags |= FL_SHORT;
 				if ((c = *fmt++) != 'h')
 					break;
 				flags |= FL_CHAR;
@@ -568,8 +563,24 @@ conv_int:
 					break;
 
 				default:		/* e,E,f,F,g,G	*/
-					c = __conv_flt(stream, width, (float*)addr);
+					if (flags & FL_LONG)
+					{
+#if FP_MATH_LEVEL >= FP_MATH_DBL
+						c = __conv_dbl(stream, width, (double*)addr);
 #else
+						goto eof;
+#endif
+					}
+					else
+					{
+#if FP_MATH_LEVEL != FP_MATH_DBL
+						c = __conv_flt(stream, width, (float*)addr);
+#else
+						goto eof;
+#endif
+					}
+
+#else	// FP_MATH_LEVEL >= FP_MATH_FLT
 				case 'd':
 				case 'u':
 					flags |= FL_DEC;
@@ -585,7 +596,7 @@ conv_int:
 					flags |= FL_HEX;
 conv_int:
 					c = conv_int(stream, width, addr, flags);
-#endif
+#endif	// #else FP_MATH_LEVEL >= FP_MATH_FLT
 				}
 			} /* else */
 

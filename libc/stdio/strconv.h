@@ -22,6 +22,7 @@
 #define FL_DEC	    0x20	/* decimal number		*/
 #define FL_HEX	    0x40	/* hexadecimal number		*/
 #define FL_MINUS    0x80	/* minus flag (field or value)	*/
+#define FL_SHORT    0x100	// 'short' type modifier
 
 // Flags as used in __conv_flt and __conv_dbl only
 #define FL_ERR      0x01    // input not valid
@@ -36,11 +37,14 @@
 int __begin_fp(FILE* stream, int width);
 int __skip_spaces(FILE* stream);
 bool __conv_flt(FILE* stream, int width, float* addr);
+bool __conv_dbl(FILE* stream, int width, double* addr);
 
 float __mulpower100f(float flt, int power);
 #define MAX_POWER_10_FLOAT  38
 const float __fltPower100table[MAX_POWER_10_FLOAT];
 
 double __mulpower100d(double dbl, int power);
+#define MAX_POWER_10_DOUBLE 308     // Infinity above this
+#define MIN_POWER_10_DOUBLE -324    // Zero below this
 
 #endif /* STRCONV_H_ */

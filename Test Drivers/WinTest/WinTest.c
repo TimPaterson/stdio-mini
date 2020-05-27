@@ -1,28 +1,28 @@
 // WinTest.c : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <stdlib.h>
-#include <Windows.h>
 #include "..\..\libc\stdio\stdio_private.h"
 
+
+// In Print.c
+void InitConsole();
+void print(const char* str);
+
+// In Driver.c
 char* TestFloat(char* pszFormat, float fVal);
 char* Test(char* pszFormat, ...);
 
 
-static HANDLE s_hConsole;
-
-void print(PSZ str)
-{
-	WriteConsoleA(s_hConsole, str, (unsigned long)strlen(str), NULL, NULL);
-	WriteConsoleA(s_hConsole, "\n", 1, NULL, NULL);
-}
-
 int main(int argc, char** argv)
 {
-	s_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	InitConsole();
 	print("Starting Tests\n");
 	print(Test("INT_MATH_LEVEL = %i", INT_MATH_LEVEL));
 	print(Test("FP_MATH_LEVEL = %i", FP_MATH_LEVEL));
+
+	print(Test("%g", strtod("  -512.34E-1 ", NULL)));
+	print(Test("%g", strtof("  -612.34E-1 ", NULL)));
+	print(Test("%g", atof("  -712.34E-1 ")));
 
 #if FP_MATH_LEVEL == FP_MATH_FLT
 	float	flt;
@@ -124,7 +124,12 @@ int main(int argc, char** argv)
 #endif
 
 #if FP_MATH_LEVEL >= FP_MATH_DBL
+	double dbl;
 	print("\nDouble floating point");
+
+	sscanf(" -123.456E-2", "%lf", &dbl);
+	print(Test("%g", dbl));
+
 	print(Test("%G next:%c%c", 1.23456789E0, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E1, 'x', 't'));
 	print(Test("%G next:%c%c", 1.23456789E2, 'x', 't'));

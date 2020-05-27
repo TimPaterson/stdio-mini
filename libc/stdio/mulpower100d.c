@@ -35,6 +35,8 @@ const double Power100tableLarge[] =
 
 double __mulpower100d(double dbl, int power)
 {
+	int expPart;
+
 	if (power != 0)	// skip 10^0
 	{
 		if (power < -MAX_TABLE_POWER / 2)
@@ -44,12 +46,11 @@ double __mulpower100d(double dbl, int power)
 			dbl = dblTmp * MIN_POWER_10_COEF;
 			power += (MAX_POWER / 2);
 		}
-		else
-		{
-			int expPart = power >> SMALL_POWER_BITS;
-			if (expPart != 0)
-				dbl *= Power100tableLarge[expPart + LARGE_POWER_BASE + (expPart < 0 ? 0 : -1)];
-		}
+
+		expPart = power >> SMALL_POWER_BITS;
+		if (expPart != 0)
+			dbl *= Power100tableLarge[expPart + LARGE_POWER_BASE + (expPart < 0 ? 0 : -1)];
+
 		power &= SMALL_POWER_MASK;
 		if (power != 0)
 			dbl *= Power100tableSmall[power - 1];

@@ -825,6 +825,15 @@ static inline int fflush(FILE *stream __attribute__((unused)))
 }
 #endif
 
+//*********************************************************************
+// These have been added to stdio (normally in stdlib) to leverage
+// the string-to-numeric conversions for the scanf family.
+
+extern double strtod(const char *psz, char **ppend);
+extern float strtof(const char *psz, char **ppend);
+extern double atof(const char *psz);
+
+
 #ifdef __cplusplus
 }
 #endif

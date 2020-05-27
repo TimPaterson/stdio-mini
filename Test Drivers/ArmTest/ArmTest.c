@@ -142,6 +142,10 @@ int main(void)
 	printf("Starting version %i\n", VERSION);
 	printf("Value: %.2f\n", PASS_FLOAT(0.999));
 	scanf("%f", &flt);
+	strtod("12.34E-1", NULL);
+	strtof("12.34E-1", NULL);
+	atof("12.34E-1");
+
 
     /* Replace with your application code */
     while (1) 

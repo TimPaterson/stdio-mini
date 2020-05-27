@@ -20,4 +20,3 @@ char* Test(char* pszFormat, ...)
 	va_end(ap);
 	return Buf;
 }
-
