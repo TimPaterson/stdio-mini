@@ -467,7 +467,6 @@
     <ClCompile Include="..\..\libc\stdio\fwrite.c" />
     <ClCompile Include="..\..\libc\stdio\getchar.c" />
     <ClCompile Include="..\..\libc\stdio\gets.c" />
-    <ClCompile Include="..\..\libc\stdio\iob.c" />
     <ClCompile Include="..\..\libc\stdio\mulpower100d.c" />
     <ClCompile Include="..\..\libc\stdio\mulpower100f.c" />
     <ClCompile Include="..\..\libc\stdio\printf.c" />

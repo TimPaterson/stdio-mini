@@ -50,7 +50,7 @@
 // to double. Since the objective of using float is to avoid
 // pulling in the presumably larger runtime library for double, this
 // would defeat the purpose. Instructions for passing a float
-// are below.
+// are in stdio.h.
 //
 // Because of the overlap with integer and floating point, two
 // compile-time variables are used, with these possible values:
@@ -78,39 +78,4 @@
 #if FP_MATH_LEVEL >= FP_MATH_DBL
 #undef INT_MATH_LEVEL
 #define INT_MATH_LEVEL	INT_MATH_LONG_LONG
-#endif
-
-#if FP_MATH_LEVEL == FP_MATH_FLT
-//*************************************************************************
-// Passing a float to a variadic function
-//*************************************************************************
-//
-// Type float is passed to a variadic function by making the compiler think
-// it's a long int. This requires a union. Here is an example:
-//
-// union {uint32_t l; float f;} u;
-// u.f = float_val;
-// printf("%f", u.l);
-//
-// For GCC, this can be encapsulated into a macro:
-
-#ifdef __GNUC__
-#define PASS_FLOAT(val)	(__extension__({union {uint32_t l; float f;} __u; __u.f = val; __u.l;}))
-#endif
-
-// Thus the call would become:
-//
-// printf("%f", PASS_FLOAT(float_val));
-//
-// The corresponding macro to receive the float from argument list 
-// pointer ap:
-
-#ifdef __GNUC__
-#define VA_ARG_FLOAT(ap) (__extension__({union {uint32_t l; float f;} __u; __u.l = va_arg(ap, uint32_t); __u.f;}))
-#endif
-
-// Example:
-//
-// float_val = VA_ARG_FLOAT(ap);
-//
 #endif

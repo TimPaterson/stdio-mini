@@ -60,9 +60,6 @@
     <ClCompile Include="..\..\libc\stdio\gets.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libc\stdio\iob.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\libc\stdio\printf.c">
       <Filter>Source Files</Filter>
     </ClCompile>

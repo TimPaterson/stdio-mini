@@ -376,6 +376,13 @@ typedef struct __file FILE;
 /**
    \brief Macro to allow passing a float to variadic functions without promotion to double
 
+	Type float is passed to a variadic function by making the compiler think
+	it's a long int. This requires a union. Here is an example:
+
+	union {uint32_t l; float f;} u;
+	u.f = float_val;
+	printf("%f", u.l);
+
    Example: <tt>printf("%f", PASS_FLOAT(f));</tt>
  */
 #define PASS_FLOAT(val)
@@ -388,7 +395,11 @@ typedef struct __file FILE;
 #define FDEV_STANDARD_STREAMS(out, in) FILE *__iob[] = { in, out }
 
 #ifdef __GNUC__
+#if FP_MATH_LEVEL == FP_MATH_FLT
 #define PASS_FLOAT(val)	(__extension__({union {uint32_t l; float f;} __u; __u.f = val; __u.l;}))
+#else
+#define PASS_FLOAT(val)	val
+#endif
 #endif
 
 #endif /* DOXYGEN */

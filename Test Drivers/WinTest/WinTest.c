@@ -12,6 +12,8 @@ void print(const char* str);
 char* TestFloat(char* pszFormat, float fVal);
 char* Test(char* pszFormat, ...);
 
+FDEV_STANDARD_STREAMS(NULL, NULL);
+
 
 int main(int argc, char** argv)
 {
