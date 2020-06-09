@@ -26,6 +26,9 @@ int main(int argc, char** argv)
 	print(Test("%g", strtof("  -612.34E-1 ", NULL)));
 	print(Test("%g", atof("  -712.34E-1 ")));
 
+	print(Test("%4i", 0));
+	print(Test("%i", 1234567890));
+
 #if FP_MATH_LEVEL == FP_MATH_FLT
 	float	flt;
 	print("\nSingle floating point");

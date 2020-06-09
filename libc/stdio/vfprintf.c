@@ -68,7 +68,7 @@ uint64_t __aeabi_uldivmod(uint64_t numerator, uint64_t denominator);
  	do { \
 		unsigned long long ull = __aeabi_uidivmod(val, base); \
 		val = ull; \
-		rem = (int)(ull >> 32) + '0'; \
+		rem = (int)(ull >> 32); \
 	 } while(0)
 
 #define ULL_DIVMOD(val, rem, base) \

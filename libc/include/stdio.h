@@ -395,11 +395,7 @@ typedef struct __file FILE;
 #define FDEV_STANDARD_STREAMS(out, in) FILE *__iob[] = { in, out }
 
 #ifdef __GNUC__
-#if FP_MATH_LEVEL == FP_MATH_FLT
 #define PASS_FLOAT(val)	(__extension__({union {uint32_t l; float f;} __u; __u.f = val; __u.l;}))
-#else
-#define PASS_FLOAT(val)	val
-#endif
 #endif
 
 #endif /* DOXYGEN */
