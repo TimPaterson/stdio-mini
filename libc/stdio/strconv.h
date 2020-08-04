@@ -12,8 +12,8 @@
 #include <stdbool.h>
 #include "stdio_private.h"
 
- /* ATTENTION: check FL_CHAR first, not FL_LONG. The last is set
-    simultaneously.	*/
+// "h" & "hh" means FL_SHORT is set if FL_CHAR is set, so test FL_CHAR first
+// "l" & "ll" means FL_LONG is set if FL_LL is set, so test FL_LL first
 #define FL_STAR	    0x01	/* '*': skip assignment		*/
 #define FL_WIDTH    0x02	/* width is present		*/
 #define FL_LONG	    0x04	/* 'long' type modifier		*/
@@ -23,6 +23,7 @@
 #define FL_HEX	    0x40	/* hexadecimal number		*/
 #define FL_MINUS    0x80	/* minus flag (field or value)	*/
 #define FL_SHORT    0x100	// 'short' type modifier
+#define FL_LL	    0x200	/* 'long long' type modifier	*/
 
 // Flags as used in __conv_flt and __conv_dbl only
 #define FL_ERR      0x01    // input not valid

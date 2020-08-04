@@ -57,7 +57,7 @@
 			<CSub></CSub>
 			<CVariant></CVariant>
 			<CVendor>Atmel</CVendor>
-			<CVersion>1.1.0</CVersion>
+			<CVersion>1.2.0</CVersion>
 			<DefaultRepoPath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs</DefaultRepoPath>
 			<DependentComponents xmlns:d4p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 				<d4p1:anyType z:Ref="i1" />
@@ -65,99 +65,99 @@
 			<Description></Description>
 			<Files xmlns:d4p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\include</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\include</AbsolutePath>
 					<Attribute></Attribute>
 					<Category>include</Category>
 					<Condition>C</Condition>
 					<FileContentHash i:nil="true" />
 					<FileVersion></FileVersion>
-					<Name>samc20/include</Name>
+					<Name>samc21/include</Name>
 					<SelectString></SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\include\sam.h</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\include\sam.h</AbsolutePath>
 					<Attribute></Attribute>
 					<Category>header</Category>
 					<Condition>C</Condition>
-					<FileContentHash>kLrnpbaMYzPJenGhghgAvA==</FileContentHash>
+					<FileContentHash>2Rk75rgdSdFbgPkrL7+Wow==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>samc20/include/sam.h</Name>
+					<Name>samc21/include/sam.h</Name>
 					<SelectString></SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\templates\main.c</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\templates\main.c</AbsolutePath>
 					<Attribute>template</Attribute>
 					<Category>source</Category>
 					<Condition>C Exe</Condition>
 					<FileContentHash>o0ncidL5gR0Z0YwWJ1YroQ==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>samc20/templates/main.c</Name>
+					<Name>samc21/templates/main.c</Name>
 					<SelectString>Main file (.c)</SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\templates\main.cpp</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\templates\main.cpp</AbsolutePath>
 					<Attribute>template</Attribute>
 					<Category>source</Category>
 					<Condition>C Exe</Condition>
 					<FileContentHash>nU+WlKcYaWh0AWBBS+WVpA==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>samc20/templates/main.cpp</Name>
+					<Name>samc21/templates/main.cpp</Name>
 					<SelectString>Main file (.cpp)</SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\gcc\system_samc20.c</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\gcc\system_samc21.c</AbsolutePath>
 					<Attribute>config</Attribute>
 					<Category>source</Category>
 					<Condition>GCC Exe</Condition>
-					<FileContentHash>Eu2ankfY7OAPXqRy4c+2tw==</FileContentHash>
+					<FileContentHash>iZApSPlKT5sFShfs2MMw3A==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>samc20/gcc/system_samc20.c</Name>
+					<Name>samc21/gcc/system_samc21.c</Name>
 					<SelectString></SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\gcc\gcc\startup_samc20.c</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\gcc\gcc\startup_samc21.c</AbsolutePath>
 					<Attribute>config</Attribute>
 					<Category>source</Category>
 					<Condition>GCC Exe</Condition>
-					<FileContentHash>pL9u4G0urjoZYrhInFwiQQ==</FileContentHash>
+					<FileContentHash>bpsG10hjzf37y3bP6vwBHA==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>samc20/gcc/gcc/startup_samc20.c</Name>
+					<Name>samc21/gcc/gcc/startup_samc21.c</Name>
 					<SelectString></SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\gcc\gcc\samc20g16a_flash.ld</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\gcc\gcc\samc21g17a_flash.ld</AbsolutePath>
 					<Attribute>config</Attribute>
 					<Category>linkerScript</Category>
 					<Condition>GCC Exe</Condition>
-					<FileContentHash>A5KtREPyG0+ubuaNZL8dVg==</FileContentHash>
+					<FileContentHash>WiHfOU6baRjGUUBGgLlc/g==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>samc20/gcc/gcc/samc20g16a_flash.ld</Name>
+					<Name>samc21/gcc/gcc/samc21g17a_flash.ld</Name>
 					<SelectString></SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 				<d4p1:anyType i:type="FileInfo">
-					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC20_DFP\1.1.151\samc20\gcc\gcc\samc20g16a_sram.ld</AbsolutePath>
+					<AbsolutePath>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAMC21_DFP\1.2.176\samc21\gcc\gcc\samc21g17a_sram.ld</AbsolutePath>
 					<Attribute>config</Attribute>
 					<Category>other</Category>
 					<Condition>GCC Exe</Condition>
-					<FileContentHash>i71RKl/z9EazRz37oUf+ig==</FileContentHash>
+					<FileContentHash>F0FsbY4kYDaKHxTuui42iQ==</FileContentHash>
 					<FileVersion></FileVersion>
-					<Name>samc20/gcc/gcc/samc20g16a_sram.ld</Name>
+					<Name>samc21/gcc/gcc/samc21g17a_sram.ld</Name>
 					<SelectString></SelectString>
 					<SourcePath></SourcePath>
 				</d4p1:anyType>
 			</Files>
-			<PackName>SAMC20_DFP</PackName>
-			<PackPath>C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/SAMC20_DFP/1.1.151/Atmel.SAMC20_DFP.pdsc</PackPath>
-			<PackVersion>1.1.151</PackVersion>
+			<PackName>SAMC21_DFP</PackName>
+			<PackPath>C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/SAMC21_DFP/1.2.176/Atmel.SAMC21_DFP.pdsc</PackPath>
+			<PackVersion>1.2.176</PackVersion>
 			<PresentInProject>true</PresentInProject>
-			<ReferenceConditionId>ATSAMC20G16A</ReferenceConditionId>
+			<ReferenceConditionId>ATSAMC21G17A</ReferenceConditionId>
 			<RteComponents xmlns:d4p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
 				<d4p1:string></d4p1:string>
 			</RteComponents>

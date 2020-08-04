@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief gcc starttup file for SAMC20
+ * \brief gcc starttup file for SAMC21
  *
  * Copyright (c) 2018 Microchip Technology Inc.
  *
@@ -27,7 +27,7 @@
  *
  */
 
-#include "samc20.h"
+#include "samc21.h"
 
 /* Initialize segments */
 extern uint32_t _sfixed;

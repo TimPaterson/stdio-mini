@@ -5,8 +5,6 @@
  *  Author: Tim
  */ 
 
-#include <math.h>
-
 
 const double Power100tableSmall[] =
 {

@@ -78,31 +78,32 @@ void Init()
 	SERCOM_USART_CTRLA_Type	serCtrlA;
 
 	// Enable clock
-	MCLK->APBCMASK.reg |= 1 << (MCLK_APBCMASK_SERCOM0_Pos);
+	MCLK->APBCMASK.reg |= MCLK_APBCMASK_SERCOM3;
 
 	// Clock it with GCLK0
-	GCLK->PCHCTRL[SERCOM0_GCLK_ID_CORE].reg = GCLK_PCHCTRL_GEN_GCLK0 | 
+	GCLK->PCHCTRL[SERCOM3_GCLK_ID_CORE].reg = GCLK_PCHCTRL_GEN_GCLK0 |
 		GCLK_PCHCTRL_CHEN;
 
 	PORT->Group[0].WRCONFIG.reg =
-			PORT_WRCONFIG_WRPMUX |
-			PORT_WRCONFIG_PMUX(MUX_PA04D_SERCOM0_PAD0) |
-			PORT_WRCONFIG_INEN |
-			PORT_WRCONFIG_PMUXEN |
-			PORT_WRCONFIG_WRPINCFG |
-			PORT_WRCONFIG_PINMASK(PORT_PA04 | PORT_PA05);
+		PORT_WRCONFIG_WRPMUX |
+		PORT_WRCONFIG_PMUX(MUX_PA24C_SERCOM3_PAD2) |
+		PORT_WRCONFIG_INEN |
+		PORT_WRCONFIG_PMUXEN |
+		PORT_WRCONFIG_WRPINCFG |
+		PORT_WRCONFIG_HWSEL |
+		PORT_WRCONFIG_PINMASK((PORT_PA24 | PORT_PA25) >> 16);
 
-	SERCOM0->USART.BAUD.reg = CalcBaudRate(BAUD_RATE, F_CPU);
+	SERCOM3->USART.BAUD.reg = CalcBaudRate(BAUD_RATE, F_CPU);
 
 	// standard 8,N,1 parameters
 	serCtrlA.reg = 0;
 	serCtrlA.bit.DORD = 1;		// LSB first
 	serCtrlA.bit.MODE = 1;		// internal clock
-	serCtrlA.bit.RXPO = RXPAD_Pad1;
-	serCtrlA.bit.TXPO = TXPAD_Pad0;
+	serCtrlA.bit.RXPO = RXPAD_Pad3;
+	serCtrlA.bit.TXPO = TXPAD_Pad2;
 	serCtrlA.bit.ENABLE = 1;
-	SERCOM0->USART.CTRLA.reg = serCtrlA.reg;
-	SERCOM0->USART.CTRLB.reg = SERCOM_USART_CTRLB_TXEN | SERCOM_USART_CTRLB_RXEN;
+	SERCOM3->USART.CTRLA.reg = serCtrlA.reg;
+	SERCOM3->USART.CTRLB.reg = SERCOM_USART_CTRLB_TXEN | SERCOM_USART_CTRLB_RXEN;
 }
 
 //*********************************************************************
@@ -111,14 +112,14 @@ void Init()
 
 void WriteByte(void *pv, char c)
 {
-	while (!SERCOM0->USART.INTFLAG.bit.DRE);
-	SERCOM0->USART.DATA.reg = c;
+	while (!SERCOM3->USART.INTFLAG.bit.DRE);
+	SERCOM3->USART.DATA.reg = c;
 }
 
 int ReadByte(void *pv)
 {
-	while (!SERCOM0->USART.INTFLAG.bit.RXC);
-	return SERCOM0->USART.DATA.reg;
+	while (!SERCOM3->USART.INTFLAG.bit.RXC);
+	return SERCOM3->USART.DATA.reg;
 }
 
 FILE SercomIo = FDEV_SETUP_STREAM(WriteByte, ReadByte, _FDEV_SETUP_RW | _FDEV_SETUP_CRLF);
@@ -132,6 +133,7 @@ FDEV_STANDARD_STREAMS(&SercomIo, &SercomIo);	// stdout, stdin
 int main(void)
 {
 	float	flt;
+	uint64_t	ull;
 
     StartClock();
     Init();
@@ -140,15 +142,17 @@ int main(void)
 	fdev_setup_stream(&SercomIo, WriteByte, ReadByte, _FDEV_SETUP_RW | _FDEV_SETUP_CRLF);
 
 	printf("Starting version %i\n", VERSION);
-	printf("Value: %.2f\n", PASS_FLOAT(0.999));
-	scanf("%f", &flt);
 	strtod("12.34E-1", NULL);
 	strtof("12.34E-1", NULL);
 	atof("12.34E-1");
 
-
-    /* Replace with your application code */
     while (1) 
     {
+		printf("Enter 64-bit hex value: ");
+		scanf("%llx", &ull);
+		printf("\n%llx  %llu\n", ull, ull);
+		printf("Enter float value: ");
+		scanf("%f", &flt);
+		printf("\n%g\n", PASS_FLOAT(flt));
     }
 }

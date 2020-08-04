@@ -55,17 +55,27 @@
 # error "Not a known floating-point math level."
 #endif
 
-/* Add noinline attribute to avoid GCC 4.2 optimization.	*/
 
-__attribute__((noinline))
-static void putval(void* addr, long val, unsigned char flags)
+#if INT_MATH_LEVEL >= INT_MATH_LONG_LONG
+typedef unsigned long long val_t;
+#else
+typedef unsigned long val_t;
+#endif
+
+// "h" & "hh" means FL_SHORT is set if FL_CHAR is set, so test FL_CHAR first
+// "l" & "ll" means FL_LONG is set if FL_LL is set, so test FL_LL first
+static void putval(void* addr, val_t val, unsigned flags)
 {
 	if (!(flags & FL_STAR))
 	{
 		if (flags & FL_CHAR)
 			*(char*)addr = (char)val;
+#if INT_MATH_LEVEL >= INT_MATH_LONG_LONG
+		else if (flags & FL_LL)
+			*(val_t*)addr = val;
+#endif
 		else if (flags & FL_LONG)
-			*(long*)addr = val;
+			*(long*)addr = (long)val;
 		else if (flags & FL_SHORT)
 			*(short*)addr = (short)val;
 		else
@@ -74,34 +84,10 @@ static void putval(void* addr, long val, unsigned char flags)
 }
 
 __attribute__((noinline))
-static unsigned long
-mulacc(unsigned long val, unsigned char flags, unsigned char c)
-{
-	unsigned char cnt;
-
-	if (flags & FL_OCT)
-	{
-		cnt = 3;
-	}
-	else if (flags & FL_HEX)
-	{
-		cnt = 4;
-	}
-	else
-	{
-		val += (val << 2);
-		cnt = 1;
-	}
-
-	do { val <<= 1; } while (--cnt);
-	return val + c;
-}
-
-__attribute__((noinline))
 static unsigned char
-conv_int(FILE* stream, int width, void* addr, unsigned char flags)
+conv_int(FILE* stream, int width, void* addr, unsigned flags)
 {
-	unsigned long val;
+	val_t val;
 	int i;
 
 	i = getc(stream);			/* after ungetc()	*/
@@ -119,12 +105,12 @@ conv_int(FILE* stream, int width, void* addr, unsigned char flags)
 	val = 0;
 	flags &= ~FL_WIDTH;
 
-	if (!(flags & (FL_DEC | FL_OCT)) && (unsigned char)i == '0')
+	if (!(flags & (FL_DEC | FL_OCT)) && i == '0')
 	{
 		if (!--width || (i = getc(stream)) < 0)
 			goto putval;
 		flags |= FL_WIDTH;
-		if ((unsigned char)(i) == 'x' || (unsigned char)(i) == 'X')
+		if (i == 'x' || i == 'X')
 		{
 			flags |= FL_HEX;
 			if (!--width || (i = getc(stream)) < 0)
@@ -141,28 +127,37 @@ conv_int(FILE* stream, int width, void* addr, unsigned char flags)
 #if	('A' - '0') != (('a' - '0') & ~('A' ^ 'a'))
 # error
 #endif
+
 	do
 	{
-		unsigned char c = i;
-		c -= '0';
-		if (c > 7)
+		unsigned u = i;
+		u -= '0';
+		if (flags & FL_OCT)
 		{
-			if (flags & FL_OCT) goto unget;
-			if (c > 9)
-			{
-				if (!(flags & FL_HEX)) goto unget;
-				c &= ~('A' ^ 'a');
-				c += '0' - 'A';
-				if (c > 5)
-				{
-unget:
-					ungetc(i, stream);
-					break;
-				}
-				c += 10;
-			}
+			if (u > 7) goto unget;
+			val = val * 8 + u;
 		}
-		val = mulacc(val, flags, c);
+		else if (flags & FL_HEX)
+		{
+			if (u > 9)
+			{
+				u &= ~('A' ^ 'a');
+				u += '0' - 'A';
+				if (u > 5) goto unget;
+				u += 10;
+			}
+			val = val * 16 + u;
+		}
+		else
+		{
+			if (u > 9)
+			{
+unget:
+				ungetc(i, stream);
+				break;
+			}
+			val = val * 10 + u;
+		}
 		flags |= FL_WIDTH;
 		if (!--width) goto putval;
 	} while ((i = getc(stream)) >= 0);
@@ -245,7 +240,7 @@ conv_brk(FILE* stream, int width, char* addr, const char* fmt)
 	/* And now it is a flag of fault.	*/
 	fnegate = 1;
 
-	/* NUL ('\0') is consided as normal character. This is match to Glibc.
+	/* NUL ('\0') is considered as normal character. This is match to Glibc.
 	   Note, there is no method to include NUL into symbol list.	*/
 	do
 	{
@@ -407,11 +402,11 @@ conv_brk(FILE* stream, int width, char* addr, const char* fmt)
 */
 int vfscanf(FILE* stream, const char* fmt, va_list ap)
 {
-	unsigned char nconvs;
+	int  nconvs;
 	unsigned char c;
 	int width;
 	char* addr;
-	unsigned char flags;
+	unsigned flags;
 	int i;
 
 	nconvs = 0;
@@ -452,7 +447,7 @@ int vfscanf(FILE* stream, const char* fmt, va_list ap)
 			while ((c -= '0') < 10)
 			{
 				flags |= FL_WIDTH;
-				width = mulacc(width, FL_DEC, c);
+				width = 10 * width + c;
 				c = *fmt++;
 			}
 			c += '0';
@@ -467,7 +462,6 @@ int vfscanf(FILE* stream, const char* fmt, va_list ap)
 				width = ~0;
 			}
 
-			/* ATTENTION: with FL_CHAR the FL_LONG is set also.	*/
 			switch (c)
 			{
 			case 'h':
@@ -475,9 +469,14 @@ int vfscanf(FILE* stream, const char* fmt, va_list ap)
 				if ((c = *fmt++) != 'h')
 					break;
 				flags |= FL_CHAR;
-				/* FALLTHROUGH */
+				c = *fmt++;
+				break;
+
 			case 'l':
 				flags |= FL_LONG;
+				if ((c = *fmt++) != 'l')
+					break;
+				flags |= FL_LL;
 				c = *fmt++;
 			}
 

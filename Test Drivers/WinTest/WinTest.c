@@ -26,6 +26,18 @@ int main(int argc, char** argv)
 	print(Test("%g", strtof("  -612.34E-1 ", NULL)));
 	print(Test("%g", atof("  -712.34E-1 ")));
 
+	// Integer tests
+	print("\nIntegers");
+	long	l;
+	int		i;
+	short	s;
+	sscanf("1234567890", "%li", &l);
+	print(Test("%li", l));
+	sscanf("12345678", "%i", &i);
+	print(Test("%i", i));
+	sscanf("12345", "%hi", &s);
+	print(Test("%hi", s));
+
 	print(Test("%4i", 0));
 	print(Test("%i", 1234567890));
 
@@ -315,6 +327,11 @@ int main(int argc, char** argv)
 
 #if INT_MATH_LEVEL >= INT_MATH_LONG_LONG
 	print("\n64-bit integers");
+
+	long long ll;
+	sscanf("1234567890123456789", "%lli", &ll);
+	print(Test("%lli", ll));
+
 	print(Test("%28lli next:%c%c", 1234567890123456789, 'x', 't'));
 	print(Test("%28lli next:%c%c", 0x7FFFFFFFFFFFFFFF, 'x', 't'));
 	print(Test("%28lli next:%c%c", 0xFFFFFFFFFFFFFFFF, 'x', 't'));

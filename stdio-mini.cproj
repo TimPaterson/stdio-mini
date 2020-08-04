@@ -95,7 +95,8 @@
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q
+cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\ArmTest.elf"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'stdio-l-flt' ">
     <ToolchainSettings>
@@ -149,7 +150,9 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q
+cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\ArmTest.elf"
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll-dbl' ">
     <ToolchainSettings>
@@ -203,7 +206,9 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q
+cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\ArmTest.elf"
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll-flt' ">
     <ToolchainSettings>
@@ -257,7 +262,9 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q
+cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\ArmTest.elf"
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll' ">
     <ToolchainSettings>
@@ -311,7 +318,8 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q
+cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\ArmTest.elf"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'stdio-ll-flt-dbl' ">
     <ToolchainSettings>
@@ -365,7 +373,8 @@ echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuil
 </ArmGcc>
     </ToolchainSettings>
     <PostBuildEvent>"$(ToolchainDir)\arm-none-eabi-objdump" -h -S $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) &gt; $(OutputDirectory)\$(OutputFileName).lss
-echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q</PostBuildEvent>
+echo F|xcopy $(OutputDirectory)\$(OutputFileName)$(OutputFileExtension) $(MSBuildProjectDirectory)\arm-lib-out\lib$(Configuration)$(OutputFileExtension) /Y /Q
+cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\ArmTest.elf"</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="libc\include\stdio.h">
