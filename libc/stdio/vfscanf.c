@@ -64,7 +64,7 @@ typedef unsigned long val_t;
 
 // "h" & "hh" means FL_SHORT is set if FL_CHAR is set, so test FL_CHAR first
 // "l" & "ll" means FL_LONG is set if FL_LL is set, so test FL_LL first
-static void putval(void* addr, val_t val, unsigned flags)
+static void putval(void* addr, unsigned flags, val_t val)
 {
 	if (!(flags & FL_STAR))
 	{
@@ -166,7 +166,7 @@ unget:
 
 putval:
 	if (flags & FL_MINUS) val = -(long)val;
-	putval(addr, val, flags);
+	putval(addr, flags, val);
 	return 1;
 
 err:
@@ -494,7 +494,7 @@ int vfscanf(FILE* stream, const char* fmt, va_list ap)
 
 			if (c == 'n')
 			{
-				putval(addr, (unsigned)(stream->len), flags);
+				putval(addr, flags, (unsigned)(stream->len));
 				continue;
 			}
 
