@@ -79,3 +79,8 @@
 #undef INT_MATH_LEVEL
 #define INT_MATH_LEVEL	INT_MATH_LONG_LONG
 #endif
+
+// Bonus functions declared in stdlib.h
+extern double strtod(const char *psz, char **ppend);
+extern float strtof(const char *psz, char **ppend);
+extern double atof(const char *psz);

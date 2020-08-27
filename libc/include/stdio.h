@@ -269,6 +269,7 @@ struct __file {
    various standard IO functions.
 */
 typedef struct __file FILE;
+#define __FILE_defined
 
 /**
    Stream that will be used as an input stream by the simplified
@@ -816,6 +817,14 @@ extern int	vscanf(const char *__fmt, va_list __ap);
  */
 extern int	sscanf(const char *__buf, const char *__fmt, ...);
 
+/**
+   The function \c vsscanf performs formatted input, reading the
+   input data from the buffer pointed to by \c buf.
+
+   See vfscanf() for details.
+ */
+extern int	vsscanf(const char *__buf, const char *__fmt, va_list __ap);
+
 #if defined(__DOXYGEN__)
 /**
    Flush \c stream.
@@ -833,13 +842,28 @@ static inline int fflush(FILE *stream __attribute__((unused)))
 #endif
 
 //*********************************************************************
-// These have been added to stdio (normally in stdlib) to leverage
-// the string-to-numeric conversions for the scanf family.
+// only mentioned for libstdc++ support, not implemented in library
 
-extern double strtod(const char *psz, char **ppend);
-extern float strtof(const char *psz, char **ppend);
-extern double atof(const char *psz);
-
+#define BUFSIZ 1024
+#define _IONBF 0
+__extension__ typedef long long fpos_t;
+extern int	fclose(FILE *__stream);
+extern int fgetpos(FILE *stream, fpos_t *pos);
+extern FILE *fopen(const char *path, const char *mode);
+extern FILE *freopen(const char *path, const char *mode, FILE *stream);
+extern FILE *fdopen(int, const char *);
+extern int fseek(FILE *stream, long offset, int whence);
+extern int fsetpos(FILE *stream, fpos_t *pos);
+extern long ftell(FILE *stream);
+extern int fileno(FILE *);
+extern void perror(const char *s);
+extern int remove(const char *pathname);
+extern int rename(const char *oldpath, const char *newpath);
+extern void rewind(FILE *stream);
+extern void setbuf(FILE *stream, char *buf);
+extern int setvbuf(FILE *stream, char *buf, int mode, size_t size);
+extern FILE *tmpfile(void);
+extern char *tmpnam (char *s);
 
 #ifdef __cplusplus
 }

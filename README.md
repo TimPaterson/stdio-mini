@@ -20,7 +20,7 @@ close, or position a file.
 | snprintf  | sscanf  | fwrite  | fread   |
 | sprintf   | vfscanf | putc    | getc    |
 | vfprintf  | vscanf  | putchar | getchar |
-| vprintf   |         | puts    | gets    |
+| vprintf   | vsscanf | puts    | gets    |
 | vsnprintf |         |         | ungetc  |
 | vsprintf  |         |         |         |
 

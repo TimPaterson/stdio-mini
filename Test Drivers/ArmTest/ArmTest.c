@@ -9,6 +9,7 @@
 #include "sam.h"
 #include "sam_spec.h"
 #include "..\..\libc\include\stdio.h"
+#include <stdlib.h>
 
 
 #define	VERSION		1

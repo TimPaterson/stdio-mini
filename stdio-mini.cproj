@@ -502,6 +502,9 @@ cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\Arm
     <Compile Include="libc\stdio\vsprintf.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="libc\stdio\vsscanf.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="libc\" />

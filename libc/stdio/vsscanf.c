@@ -32,9 +32,8 @@
 #include <stdarg.h>
 #include "stdio_private.h"
 
-int sscanf(const char *s, const char *fmt, ...)
+int vsscanf(const char *s, const char *fmt, va_list ap)
 {
-	va_list ap;
 	FILE f;
 	int i;
 
@@ -46,9 +45,7 @@ int sscanf(const char *s, const char *fmt, ...)
 	 * a chance to get write access to it again.
 	 */
 	f.u.mem.buf = (char *)s;
-	va_start(ap, fmt);
 	i = vfscanf(&f, fmt, ap);
-	va_end(ap);
 
 	return i;
 }
