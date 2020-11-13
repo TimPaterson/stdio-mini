@@ -34,16 +34,13 @@
 int puts(const char *str)
 {
 	char c;
-	int rv = 0;
 
 	if ((stdout->flags & __SWR) == 0)
 		return EOF;
 
 	while ((c = *str++) != '\0')
-		if (fputc(c, stdout) != 0)
-			rv = EOF;
-	if (fputc('\n', stdout) != 0)
-		rv = EOF;
+		fputc(c, stdout);
 
-	return rv;
+	fputc('\n', stdout);
+	return 0;
 }

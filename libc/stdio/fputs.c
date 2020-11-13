@@ -34,14 +34,12 @@
 int fputs(const char *str, FILE *stream)
 {
 	char c;
-	int rv = 0;
 
 	if ((stream->flags & __SWR) == 0)
 		return EOF;
 
 	while ((c = *str++) != '\0')
-		if (fputc(c, stream) != 0)
-			rv = EOF;
+		fputc(c, stream);
 
-	return rv;
+	return 0;
 }

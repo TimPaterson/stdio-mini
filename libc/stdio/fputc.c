@@ -37,8 +37,8 @@ int fputc(int c, FILE *stream)
 		return EOF;
 
 	// Turn LF into CRLF if flagged
-	if ((stream->flags & __SCRLF ) && c == 0x0A)
-		fputc(0x0D, stream);
+	if ((stream->flags & __SCRLF ) && c == '\n')
+		fputc('\r', stream);
 
 	if (stream->flags & __SSTR) {
 		if (stream->len < stream->u.mem.size)
