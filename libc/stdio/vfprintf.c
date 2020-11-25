@@ -92,7 +92,7 @@ uint64_t __aeabi_uldivmod(uint64_t numerator, uint64_t denominator);
 #define CONV_UPPER	('A' - '9' - 1)
 #define CONV_LOWER	('a' - '9' - 1)
 
-inline unsigned char* __ultoa_rev(unsigned long val, unsigned char* str, unsigned base, int cap)
+static inline unsigned char* __ultoa_rev(unsigned long val, unsigned char* str, unsigned base, int cap)
 {
 	unsigned	ch;
 

@@ -17,7 +17,7 @@
     <AssemblyName>stdio-mini</AssemblyName>
     <Name>stdio-mini</Name>
     <RootNamespace>stdio-mini</RootNamespace>
-    <ToolchainFlavour>Native</ToolchainFlavour>
+    <ToolchainFlavour>ARM GCC 9.3.1</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
     <CacheFlash>true</CacheFlash>
@@ -69,8 +69,9 @@
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
   <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags />
   <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
   <armgcc.linker.libraries.Libraries>
     <ListValues>
@@ -124,8 +125,9 @@ cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\Arm
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
   <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags />
   <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
   <armgcc.linker.libraries.Libraries>
     <ListValues>
@@ -180,8 +182,9 @@ cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\Arm
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
   <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags />
   <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
   <armgcc.linker.libraries.Libraries>
     <ListValues>
@@ -236,8 +239,9 @@ cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\Arm
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
   <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags />
   <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
   <armgcc.linker.libraries.Libraries>
     <ListValues>
@@ -292,8 +296,9 @@ cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\Arm
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
   <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags />
   <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
   <armgcc.linker.libraries.Libraries>
     <ListValues>
@@ -347,8 +352,9 @@ cmd /c del "$(MSBuildProjectDirectory)\Test Drivers\ArmTest\$(Configuration)\Arm
   <armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>True</armgcc.compiler.optimization.EnableUnsafeMatchOptimizations>
   <armgcc.compiler.optimization.EnableFastMath>True</armgcc.compiler.optimization.EnableFastMath>
   <armgcc.compiler.optimization.EnableLongCalls>False</armgcc.compiler.optimization.EnableLongCalls>
-  <armgcc.compiler.optimization.DebugLevel>Minimal (-g1)</armgcc.compiler.optimization.DebugLevel>
+  <armgcc.compiler.optimization.DebugLevel>Default (-g2)</armgcc.compiler.optimization.DebugLevel>
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
+  <armgcc.compiler.miscellaneous.OtherFlags />
   <armgcc.linker.general.GenerateMAPFile>False</armgcc.linker.general.GenerateMAPFile>
   <armgcc.linker.libraries.Libraries>
     <ListValues>

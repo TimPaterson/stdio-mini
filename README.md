@@ -1,6 +1,6 @@
 # Portable, Device-Oriented `stdio` C Runtime Library
 The purpose of this library is to allow a device (such as a serial
-port) to work with `stdio` functions like printf and scanf.
+port) to work with `stdio` functions like `printf` and `scanf`.
 It defines the C `FILE` structure to have references to user-written
 functions to read and write a byte at a time. This has been a
 feature of AVR-LIBC, the standard `stdio` C runtime
@@ -82,7 +82,9 @@ intended that it can be compiled for any platform with a standard
 C compiler. Optimizations originally present for the 8-bit AVR have
 generally been removed.
 
-This project was developed in Atmel Studio targeting ARM Cortex-M0+
+This project was developed in Microchip Studio targeting ARM Cortex-M0+
 microcontrollers. Fully compiled and ready-to-link libraries in
 every combination of math support are included for this target.
-The Atmel Stdio project files are also included.
+The Microchip Studio project files are also included. The ArmTest
+test driver now requires FixDebugInfo in a post-build step, which
+can be found at https://github.com/TimPaterson/FixDebugInfo-GCC-ARM.
