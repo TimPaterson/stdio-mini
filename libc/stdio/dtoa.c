@@ -75,12 +75,7 @@ int __dtoa(double val, char* buf, int prec, int maxdgs)
 	// exponent will be -5 <= exp <= 2.
 	//
 	// By multiplying by log10(2), we can directly calculate the power
-	// of 10. Specifically, 10^-(ceil((exp - 2) * log10(2))). The
-	// largest power needed at minimum exponent = (-1023 - 2) * log10(2) =
-	// -308.56, so 10^308. At the other end, (+1023 - 2) * log10(2) = 307.35,
-	// so 10^-308. Because this is such a large range, two multiplies
-	// will be used to reduce table size. The low 4 bits of the exponent
-	// select one power, and the upper 5 bits select the other.
+	// of 10. Specifically, 10^-(ceil((exp - 2) * log10(2))). 
 	//
 	// We only use even powers of 10 (10^2, 10^4...) to cut table space
 	// in half. This can result in an additional multiply by 10 to get

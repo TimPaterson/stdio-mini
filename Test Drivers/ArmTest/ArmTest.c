@@ -134,6 +134,7 @@ FDEV_STANDARD_STREAMS(&SercomIo, &SercomIo);	// stdout, stdin
 int main(void)
 {
 	float	flt;
+	double	dbl;
 	uint64_t	ull;
 
     StartClock();
@@ -142,18 +143,24 @@ int main(void)
 	// Test runtime initialization too
 	fdev_setup_stream(&SercomIo, WriteByte, ReadByte, _FDEV_SETUP_RW | _FDEV_SETUP_CRLF);
 
-	printf("Starting version %i\n", VERSION);
+	printf("\nStarting version %i\n", VERSION);
 	strtod("12.34E-1", NULL);
 	strtof("12.34E-1", NULL);
-	atof("12.34E-1");
+	printf("%g\n", atof("-123456789E-52"));
 
     while (1) 
     {
 		printf("Enter 64-bit hex value: ");
 		scanf("%llx", &ull);
 		printf("\n%llx  %llu\n", ull, ull);
+		
 		printf("Enter float value: ");
 		scanf("%f", &flt);
-		printf("\n%g\n", PASS_FLOAT(flt));
+		//printf("\n%g\n", PASS_FLOAT(flt));
+		printf("%g\n", flt);
+		
+		printf("Enter double value: ");
+		scanf("%lf", &dbl);
+		printf("\n%g\n", dbl);
     }
 }

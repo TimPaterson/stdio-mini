@@ -85,6 +85,4 @@ generally been removed.
 This project was developed in Microchip Studio targeting ARM Cortex-M0+
 microcontrollers. Fully compiled and ready-to-link libraries in
 every combination of math support are included for this target.
-The Microchip Studio project files are also included. The ArmTest
-test driver now requires FixDebugInfo in a post-build step, which
-can be found at https://github.com/TimPaterson/FixDebugInfo-GCC-ARM.
+The Microchip Studio project files are also included.

@@ -84,7 +84,7 @@ bool __conv_dbl(FILE* stream, int width, double* addr)
 						exp -= 1;
 					ull = ull * 10 + c;
 					// Keep room for extra multiply by 10 if power is odd.
-					// Still gives 26 bits, good for round & sticky bits.
+					// Still gives 58 bits, plenty for round & sticky bits.
 					if (ull >= (ULLONG_MAX / 10 - 9) / 10)
 						flag |= FL_OVFL;
 				}
@@ -140,14 +140,7 @@ bool __conv_dbl(FILE* stream, int width, double* addr)
 			ull *= 10;
 		dbl = (double)ull;
 		if (ull != 0)
-		{
-			if (exp < MIN_POWER_10_DOUBLE)
-				dbl = 0.0;
-			else if (exp > MAX_POWER_10_DOUBLE)
-				dbl = INFINITY;
-			else
-				dbl = __mulpower100d(dbl, exp >> 1);
-		}
+			dbl = __mulpower100d(dbl, exp >> 1);
 	}
 
 	if (flag & FL_MINUS)

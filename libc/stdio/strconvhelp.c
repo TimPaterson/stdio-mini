@@ -86,7 +86,8 @@ operate_pstr:
 				}
 			}
 		}
-		return (p == pstr_an + 3) ? FL_NAN : FL_INF;
+		flag |= (p == pstr_an + 3) ? FL_NAN : FL_INF;
+		break;
 
 	default:
 		ungetc(ch, stream);

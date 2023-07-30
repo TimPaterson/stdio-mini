@@ -76,10 +76,7 @@ int __ftoa(float val, char *buf, int prec, int maxdgs)
 	// exponent will be -5 <= exp <= 2. 
 	//
 	// By multiplying by log10(2), we can directly calculate the power
-	// of 10. Specifically, 10^-(ceil((exp - 2) * log10(2))). The
-	// largest power needed at minimum exponent = (-127 - 2) * log10(2) =
-	// -38.83, so 10^38. At the other end, (+127 - 2) * log10(2) = 37.6,
-	// so 10^-38.
+	// of 10. Specifically, 10^-(ceil((exp - 2) * log10(2))). 
 	//
 	// We only use even powers of 10 (10^2, 10^4...) to cut table space 
 	// in half. This can result in an additional multiply by 10 to get

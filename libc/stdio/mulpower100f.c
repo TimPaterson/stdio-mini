@@ -8,27 +8,43 @@
 
 #include "strconv.h"
 
+#ifndef _countof
+#define _countof(array) (sizeof(array)/sizeof(array[0]))
+#endif
 
-const float __fltPower100table[] =
+
+static const float Power100table[] =
 {
-	// Note that 1E-38 is denormal, losing two bits of precision.
-	// Additional code using 2E-38 and a second floating-point
-	// multiplication by 0.5 could be used to get this back.
-	//
-	1e-38f, 1e-36f, 1e-34f, 1e-32f, 1e-30f, 1e-28f, 1e-26f, 1e-24f, 1e-22f, 
+	1e-36f, 1e-34f, 1e-32f, 1e-30f, 1e-28f, 1e-26f, 1e-24f, 1e-22f, 
 	1e-20f, 1e-18f, 1e-16f, 1e-14f, 1e-12f, 1e-10f, 1e-8f, 1e-6f, 1e-4f, 1e-2f,
 	// 1e+0 skipped
 	1e+2f, 1e+4f, 1e+6f, 1e+8f, 1e+10f, 1e+12f, 1e+14f, 1e+16f, 1e+18f, 1e+20f,
 	1e+22f, 1e+24f, 1e+26f, 1e+28f, 1e+30f, 1e+32f, 1e+34f, 1e+36f, 1e+38f
 };
 
+#define MIN_TABLE_POWER		-36
+#define MAX_TABLE_POWER		38
+
+
+// Multiply by powers of 100.
 
 float __mulpower100f(float flt, int power)
 {
-	if (power != 0)
+	if (power != 0)	// skip 100^0
 	{
-		// table has no entry for 100^0, skip over it
-		flt *= __fltPower100table[power + MAX_POWER_10_FLOAT / 2 + (power < 0 ? 0 : -1)];
+		while (power < MIN_TABLE_POWER/2)
+		{
+			flt *= Power100table[0];
+			power -= MIN_TABLE_POWER/2;
+		}
+		
+		while (power > MAX_TABLE_POWER/2)
+		{
+			flt *= Power100table[_countof(Power100table) - 1];
+			power -= MAX_TABLE_POWER/2;
+		}		
+
+		flt *= Power100table[power - MIN_TABLE_POWER / 2 + (power < 0 ? 0 : -1)];
 	}
 	return flt;
 }

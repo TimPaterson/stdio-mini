@@ -140,23 +140,7 @@ bool __conv_flt(FILE* stream, int width, float* addr)
 			ul *= 10;
 		flt = (float)ul;
 		if (ul != 0)
-		{
-			if (exp < -MAX_POWER_10_FLOAT)
-			{
-				if (exp < 2 * -MAX_POWER_10_FLOAT)
-					flt = 0.0f;
-				else
-				{
-					flt *= __fltPower100table[0];
-					exp += MAX_POWER_10_FLOAT;
-					goto MulPower;
-				}
-			}
-			else if (exp > MAX_POWER_10_FLOAT)
-				flt = INFINITY;
-			else
-MulPower:		flt = __mulpower100f(flt, exp >> 1);
-		}
+			flt = __mulpower100f(flt, exp >> 1);
 	}
 
 	if (flag & FL_MINUS)
