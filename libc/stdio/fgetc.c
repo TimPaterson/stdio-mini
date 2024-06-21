@@ -53,7 +53,7 @@ int fgetc(FILE *stream)
 			stream->u.mem.buf++;
 		}
 	} else {
-		rv = stream->u.dev.get(stream);
+		rv = stream->u.dev.get(stream->udata);
 		if (rv < 0) {
 			/* if != _FDEV_ERR, assume it's _FDEV_EOF */
 			stream->flags |= (rv == _FDEV_ERR)? __SERR: __SEOF;
