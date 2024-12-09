@@ -75,8 +75,6 @@ bool __conv_flt(FILE* stream, int width, float* addr)
 				{
 					if (!(flag & FL_DOT))
 						exp += 1;
-					if (c != 0)
-						ul |= 1;	// sticky bit
 				}
 				else
 				{
@@ -84,7 +82,6 @@ bool __conv_flt(FILE* stream, int width, float* addr)
 						exp -= 1;
 					ul = ul * 10 + c;
 					// Keep room for extra multiply by 10 if power is odd.
-					// Still gives 26 bits, good for round & sticky bits.
 					if (ul >= (ULONG_MAX / 10 - 9) / 10)
 						flag |= FL_OVFL;
 				}
